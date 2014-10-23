@@ -1,0 +1,54 @@
+CREATE TABLE Products(
+	pname VARCHAR(30),
+	pid INTEGER PRIMARY KEY,
+	price DOUBLE NOT NULL,
+	photoID integer NOT NULL,
+	stock INTEGER,
+	ptype VARCHAR(30),
+	pgender CHAR(1),
+	pdescription VARCHAR(250),
+	CHECK ( pgender = 'U' OR pgender = 'M' OR pgender = 'F')
+);
+
+CREATE TABLE Users(
+	uname VARCHAR(25) PRIMARY KEY,
+	pword VARCHAR(15) NOT NULL,
+	fname VARCHAR(20) NOT NULL,
+	lname VARCHAR(15) NOT NULL,
+	street VARCHAR(50) NOT NULL,
+	city VARCHAR(15) NOT NULL,
+	prov CHAR(2) NOT NULL,
+	gender CHAR(1) NOT NULL,
+	age INTEGER NOT NULL
+);
+
+CREATE TABLE Basket(
+	sessionID INTEGER PRIMARY KEY,
+	uname VARCHAR(25),
+	pid INTEGER,
+	quantity INTEGER,
+	prodtype VARCHAR(30),
+	FOREIGN KEY (uname) REFERENCES Users(uname),
+	FOREIGN KEY (pid) REFERENCES Products(pid)
+)
+
+CREATE TABLE Basket(
+	sessionID INTEGER PRIMARY KEY,
+	uname VARCHAR(25),
+	pid INTEGER,
+	quantity INTEGER,
+	FOREIGN KEY (uname) REFERENCES Users(uname),
+	FOREIGN KEY (pid) REFERENCES Products(pid)
+)
+
+CREATE TABLE UserHistory(
+	uname VARCHAR(25),
+	pid INTEGER,
+	FOREIGN KEY (uname) REFERENCES Users(uname),
+	FOREIGN KEY (pid) REFERENCES Products(pid)
+)
+
+
+account: mnowicki
+pw     : 92384072
+db     : db_mnowicki
