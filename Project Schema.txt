@@ -22,6 +22,7 @@ CREATE TABLE Users(
 	age INTEGER NOT NULL
 );
 
+// ALTER TABLE ADD PRIMARY KEY (uname, sessionID, pid)
 CREATE TABLE Basket(
 	sessionID INTEGER PRIMARY KEY,
 	uname VARCHAR(25),
@@ -31,6 +32,11 @@ CREATE TABLE Basket(
 	FOREIGN KEY (uname) REFERENCES Users(uname),
 	FOREIGN KEY (pid) REFERENCES Products(pid)
 )
+// Changes I made today (10/23/14) I messed up on last night.
+ALTER TABLE Basket
+DROP PRIMARY KEY;
+ALTER TABLE Basket
+ADD PRIMARY KEY (sessionID, uname, pid);
 
 CREATE TABLE Basket(
 	sessionID INTEGER PRIMARY KEY,
