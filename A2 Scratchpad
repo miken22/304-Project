@@ -1,0 +1,49 @@
+Executive Summary:
+- Problems: 	How to get items from DB for random sales
+		How to track user purchase history
+		Changing stock amounts based on purchases or removing from shopping cart
+		
+		How to generate recommendations based on user purchases/selection
+
+		Basket uses sessionID, username and pid to identify what is in the shopping cart. To prevent duplicates
+		each time the basket is cleared or sent to check out the sessionID is reassigned. 
+
+		Price is determined by quantity * pprice, grand total determined at the end and taxes. 
+		Keeping keys unique but linking to 
+		
+		When the session first start, pid and sale duration are stored to maintain consistency when returning to the home page
+
+- List of Features
+		Reccommendations for users based on demographic
+		Purchase history
+		Random item selection for big discount
+		One JSP page that will represent the item selected.
+
+- List of Assumptions:
+		Not storing user sessions, must re-login and submit credentials for new sessionID.
+		Warehouses around Canada, no international shipping
+		No retail stores
+		When you checkout it redirects to PayPal for payment processing
+		Will ship to stored address from User Table.
+
+Types of Pages:
+Mike will look at these over the weekend:
+Logon Page -> Form
+Generic Home Page
+Logged in Home Page
+
+Grid of other items
+
+Item pages -> One JSP template that then generates based on link clicked from grid
+
+Checkout Page
+
+Mike will build structure tonight, will provide JSP with access to my DB when available
+schema:
+Product: (pname, pid {PK}, pprice, psize, pphotoid, stock, type, pgender, description)
+
+User: (username{PK}, fname, lname, address, gender, age, password)
+
+Basket: (sessionID, username, pid, quantity, price, type)
+
+UserHistory: (sessionID, username, pid, type)
