@@ -5,7 +5,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login</title>
-
+<style>
+	h1 {
+		font-family: "serif";
+	}
+	
+	p {
+		color: blue;
+		font-family: "serif";
+		font-size: 10pt;
+	}
+</style>
 </head>
 <body bgcolor="#EEEEE">
 
@@ -18,7 +28,7 @@
 		
 		if (valid != null){
 			if(!valid){
-				out.println(session.getAttribute("msg").toString());
+				out.println("<p>" + session.getAttribute("msg").toString() + "</p>");
 			}
 		}
 		

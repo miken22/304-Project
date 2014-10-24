@@ -1,12 +1,14 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Logged In Banner</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
 
 <style>
 h1 {
-	color: blue
+	color: red
 }
 
 #banner, image {
@@ -14,7 +16,7 @@ h1 {
 }
 
 #menus {
-	background-color: blue;
+	background-color: red;
 	overflow: hidden;
 	width: 100%;
 	height: auto;
@@ -22,7 +24,7 @@ h1 {
 }
 
 input[type=submit] {
-	border: blue;
+	border: red;
 	background: transparent;
 	color: #fff;
 	font-family: "serif";
@@ -44,11 +46,17 @@ input[type=submit] {
 
 </head>
 <body>
+
+	<%
+		String name = session.getAttribute("fname").toString();
+		out.println(name);
+		
+	%>
 	<div>
-		<div>	
-			<div>
-				<div id="banner">
-					<h1>The Grid</h1>
+		<div>
+			<div id="greet">
+				<div id="userGreeting">
+					<% out.println("Welcome" + name); %>
 				</div>
 			</div>
 			<div id="menus">
@@ -58,7 +66,9 @@ input[type=submit] {
 					</form>
 				</div>
 			</div>
-			
+			<div id="banner">
+				<h1>The Grid</h1>
+			</div>
 
 		</div>
 	</div>

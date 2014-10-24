@@ -9,7 +9,6 @@
 </head>
 <body>
 	<%
-		session.setMaxInactiveInterval(900);
 		String userName = request.getParameter("lgnuser");
 		String password = request.getParameter("lgnpswrd");
 
@@ -27,13 +26,21 @@
 			Statement stmt = con.createStatement();
 			String userQuery = "SELECT * from Users WHERE uname='" + userName +"' AND pword='" + password + "'";
 			ResultSet result = stmt.executeQuery(userQuery);
+			Boolean valid = false;;
 			if(result.next()){
-				Boolean valid = false;
 				valid = true;
+				userQuery = "SELECT fname from Users WHERE uname='" + userName +"' AND pword='" + password + "'";
+				result = stmt.executeQuery(userQuery);
+				if(result.next()){
+					String name = result.getString(1);
+					out.println(name);
+					session.setAttribute("fname", name);
+				}
+				session.setMaxInactiveInterval(900);
 				session.setAttribute("valid",valid);
 				response.sendRedirect("logged_in_main.jsp");
 			} else {
-				session.removeAttribute("valid");
+				session.setAttribute("valid",valid);
 				String message = "Invalid user credentials.";
 				session.setAttribute("msg", message);
 				response.sendRedirect("login.jsp");

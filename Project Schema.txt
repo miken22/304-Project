@@ -54,7 +54,6 @@ CREATE TABLE UserHistory(
 	FOREIGN KEY (pid) REFERENCES Products(pid)
 )
 
-
 account: mnowicki
 pw     : 92384072
 db     : db_mnowicki

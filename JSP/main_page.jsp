@@ -5,9 +5,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>The Grid</title>
-
+<style>
+	body{
+		background-image: url("http://d1hw6n3yxknhky.cloudfront.net/002674271_prevstill.jpeg");
+		background-attachment: "fixed";
+	}
+</style>
 </head>
-<body bgcolor="#EEEEE">
+<body>
 	<%@ include file="general_banner.html" %>	
 </body>
 </html>
