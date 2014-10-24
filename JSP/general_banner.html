@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+<style>
+h1 {
+	color: red
+}
+
+#banner, image {
+	width: 100%;
+}
+
+#menus {
+	background-color: red;
+	overflow: hidden;
+	width: 100%;
+	height: auto;
+	z-index: -2;
+}
+
+input[type=submit] {
+	border: red;
+	background: transparent;
+	color: #fff;
+	font-family: "serif";
+	font-size: 15pt;
+	padding: 5px 5px;
+	z-index: -1;
+	width: 30x;
+}
+
+#menus div {
+	float: right;
+	display: inline-block;
+	height: auto;
+	text-align: center;
+	border-right: thin solid white;
+	width: 125px;
+}
+</style>
+
+</head>
+<body>
+
+	<div>
+		<div>
+			<div id="menus">
+				<div>
+					<form action="create_user.jsp">
+						<input type="submit" value="Register">
+					</form>
+				</div>
+				<div>
+					<form action="login.jsp">
+						<input type="submit" value="Login">
+					</form>
+				</div>
+			</div>
+			<div id="banner">
+				<h1>The Grid</h1>
+			</div>
+
+		</div>
+	</div>
+
+
+</body>
+</html>
