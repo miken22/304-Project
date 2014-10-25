@@ -55,12 +55,19 @@ CREATE TABLE UserHistory(
 )
 
 create table Deals(
+	
 	saleNum INTEGER PRIMARY KEY,
-    pid INTEGER,
-    startDate datetime,
-    duration INTEGER,
-    FOREIGN KEY (pid) REFERENCES Products(pid)
+
+	pid INTEGER,
+
+	startDate datetime,
+
+	duration INTEGER,
+	FOREIGN KEY (pid) REFERENCES Products(pid)
+
 )
+ALTER TABLE Deals
+ ADD COLUMN discount DOUBLE;
 
 account: mnowicki
 pw     : 92384072
