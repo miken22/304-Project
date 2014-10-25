@@ -54,6 +54,14 @@ CREATE TABLE UserHistory(
 	FOREIGN KEY (pid) REFERENCES Products(pid)
 )
 
+create table Deals(
+	saleNum INTEGER PRIMARY KEY,
+    pid INTEGER,
+    startDate datetime,
+    duration INTEGER,
+    FOREIGN KEY (pid) REFERENCES Products(pid)
+)
+
 account: mnowicki
 pw     : 92384072
 db     : db_mnowicki
