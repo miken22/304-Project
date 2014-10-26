@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+		Remove this if you use the .htaccess -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+		<title>testTimer</title>
+		<meta name="description" content="" />
+		<meta name="author" content="35706118" />
+
+		<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+
+		<style>
+			html, body {
+				background-color: #fcfcfc;
+				height: 100%;
+				width: 100%;
+			}
+
+			.timer {
+				background-color: #dcdcdc;
+			}
+
+			#testTimer {
+				background-color: #ff9999;
+			}
+		</style>
+
+		<body>
+			<!--DATE TIMER -->
+			<div id="testTimer">
+				<p>
+					Start Date: <span id="testStart"></span>.
+				</p>
+				<p>
+					End date: <span id="testEnd"></span>.
+				</p>
+				<p>
+					Time Remaining: <span id="testRemaining"></span>.
+				</p>
+			</div>
+
+		</body>
+
+	</head>
+
+
+	<!--Test Timer -->
+	<script type="text/javascript">
+		//----------------------------------------------------------------------------------------------------------------------------
+		//TEST TIMER 					//!@# ACCEPTED
+		//----------------------------------------------------------------------------------------------------------------------------
+		//**NOTE**: months are off by -1
+		//**NOTE**: USE .toLocaleTime/DateString() to display, ELSE time off by +7 hrs (off of GMT).
+		//The 7 numbers specify the year, month, day, hour, minute, second, and millisecond, in that order:
+		//TEST Values:
+		//var testStartDate = new Date(2014, 9, 24, 14, 20, 0, 0);
+		//var duration = 3600;
+		
+		
+		
+		//Returns a time String based on input Milliseconds
+		var stringTime = function(Milliseconds) {
+			//Milliseconds= Math.abs(Milliseconds);
+			var seconds = Milliseconds / 1000;
+			var hours = Math.floor(seconds / 3600);
+			var minutes = Math.floor(seconds / 60) % 60;
+			var second = Math.floor(seconds % 60);
+			if (minutes < 10) {
+				minutes = "0" + minutes;
+			}
+			if (hours < 10) {
+				hours = "0" + hours;
+			}
+			if (second < 10) {
+				second = "0" + second;
+			}
+			return hours + ":" + minutes + ":" + second;
+		}
+		
+		
+		
+		//Date/Time Timer Method
+		var dateTimer = function(startDate, durationSeconds) {
+			//now time
+			var now = new Date();
+			//set the endDate object
+			var endDate = startDate.getTime() + (durationSeconds * 1000);
+			endDate = new Date(endDate);
+			//TEST: console.log("The End Date is :"+endDate.toLocaleDateString()+" "+endDate.toLocaleTimeString());
+			//calculate remaining
+			var remaining = endDate.getTime() - now.getTime();
+			//TEST: console.log("remaining = "+endDate.getTime()+" - "+now.getTime()+" = "+remaining);
+
+			//set HTML elements
+			document.getElementById('testStart').innerHTML = startDate.toLocaleDateString() + " " + startDate.toLocaleTimeString();
+			document.getElementById('testEnd').innerHTML = endDate.toLocaleDateString() + " " + endDate.toLocaleTimeString();
+			document.getElementById('testRemaining').innerHTML = remaining + " which is " + stringTime(remaining);
+			
+			//evaluate for remaining <=0
+			if(remaining<=0){
+				console.log("Date/Timer has Expired.");
+				clearInterval(dateTimerInterval);
+				//change timer field
+				document.getElementById('testRemaining').innerHTML = "Remaining Time is UP!";
+				//!@# Future Action To Be Taken Here:		
+			}
+		}
+		
+		//dateTimer() on an interval 
+		var dateTimerInterval = setInterval('dateTimer(testStartDate, duration)', 1000);
+		
+	</script>
+
+</html>
+
+
+
+
+
+<!-- 
+	<script type="text/javascript">
+		//---------------------------------------------------------------------------------------------------------------------------
+		//CURRENT TIME CLOCK
+		//---------------------------------------------------------------------------------------------------------------------------
+		var currentTime = function() {
+			var now = new Date();
+			document.getElementById('clock').innerHTML = now.toLocaleDateString() + " " + now.toLocaleTimeString();
+		}
+		var currentTimer = setInterval('currentTime()', 1000);
+	</script> -->
+	
+<!-- <script type="text/javascript">
+		//-----------------------------------------------------------------------------------------------------------------------------
+		//BASIC TIMER
+		//------------------------------------------------------------------------------------------------------------------------------
+		//
+		//var seconds = Math.round(Math.random()*24*3600*4+1) //4 days max
+		var seconds = 3;
+		function secondPassed() {
+
+			var hours = Math.floor(seconds / 3600);
+			var minutes = Math.floor(seconds / 60) % 60;
+			var second = Math.floor(seconds % 60);
+
+			if (minutes < 10) {
+				minutes = "0" + minutes;
+			}
+
+			if (hours < 10) {
+				hours = "0" + hours;
+			}
+
+			if (second < 10) {
+				second = "0" + second;
+			}
+
+			document.getElementById('countdown').innerHTML = hours + ":" + minutes + ":" + second;
+
+			if (seconds === 0) {
+				console.log("Basic Timer has expired.");
+				clearInterval(countdownTimer);
+				//Change Timer Field
+				document.getElementById('countdown').innerHTML = "Time's Up";
+
+				//!@#Future Action To Be Taken When Time Expires Goes Here:
+				console.log("FUTURE ACTION WAS TAKEN");
+				//!@#Accepted
+			} else {
+				//console.log("BasicSeconds was " + seconds);
+				seconds--;
+
+			}
+		}
+
+		//var countdownTimer = setInterval('secondPassed()', 1000);
+	</script>
+-->
