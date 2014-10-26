@@ -35,6 +35,7 @@
 					String name = result.getString(1);
 					out.println(name);
 					session.setAttribute("fname", name);
+					session.setAttribute("lgnuser",userName);
 				}
 				session.setMaxInactiveInterval(900);
 				session.setAttribute("valid",valid);
@@ -43,6 +44,8 @@
 				session.setAttribute("valid",valid);
 				String message = "Invalid user credentials.";
 				session.setAttribute("msg", message);
+				session.removeAttribute("lgnuser");
+				session.removeAttribute("lgnpswrd");
 				response.sendRedirect("login.jsp");
 			}
 		} catch (Exception e) {

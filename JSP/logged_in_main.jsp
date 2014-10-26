@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ include file="validation.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,23 +13,32 @@
 		float:right;
 	}
 	body{
-		background-image: url("http://d1hw6n3yxknhky.cloudfront.net/002674271_prevstill.jpeg");
 		background-attachment: "fixed";
 	}
 </style>
 </head>
-<body bgcolor="#EEEEE">
-	<%
-		String message = "Welcome to the Grid! Please login to continue.";
-		session.setAttribute("valid", valid);
-		session.setAttribute("msg", message);
+<body>
+
+	<%@ include file="validation.jsp" %>
+	<%! private String fname = ""; %>
+	<%! private String uname = ""; %>
+	<%	
+		session = request.getSession();
+		try{
+			fname = session.getAttribute("fname").toString();
+			uname = session.getAttribute("lgnuser").toString();
+			session.setAttribute("lgnuser", uname);
+		} catch (Exception e){
+			out.println(e);
+		}
 	%>
 	<div>
 		<div id="greet">
-			<p>Welcome <%=session.getAttribute("fname").toString()%>!<p>
+			<p>Welcome <%out.println(fname);%><p>
 		</div>
 	</div>
-	<%@ include file="login_banner.html" %>
+	
+	<%@ include file="login_banner.html"%>
 
 </body>
 </html>

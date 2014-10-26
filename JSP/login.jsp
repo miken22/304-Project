@@ -15,12 +15,26 @@
 		font-family: "serif";
 		font-size: 10pt;
 	}
+	input[type=submit] {
+		border: black;
+		background: transparent;
+		color: black;
+		font-family: "serif";
+		font-size: 15pt;
+		padding: 5px 5px;
+		z-index: -1;
+		width: 30x;
+	}
+	form{
+		position: relative;
+		margin-left: 5%;
+		margin-right: 5%;
+	}
 </style>
 </head>
-<body bgcolor="#EEEEE">
+<body>
 
 	<h1 align="center">Welcome to <b><i>The Grid</i></b></h1>
-
 	<%
 		session = request.getSession();
 		Boolean valid = (Boolean)session.getAttribute("valid");
@@ -34,12 +48,17 @@
 		
 	%>
 
-	<form name="newUser" method="post" action="authenticate.jsp">
+	<form name="login" method="post" action="authenticate.jsp">
 		<table>
-			<tr><td>Username:</td><td><input type="text" name="lgnuser" required></td></tr>
-			<tr><td>Password:</td><td><input type="password" name="lgnpswrd" required></td></tr>
-			<tr><td align="center" colspan="2"><input type="submit" value="Login"></td></tr>
+			<tr><td>Username:</td><td><input type="text" name="lgnuser"></td></tr>
+			<tr><td>Password:</td><td><input type="password" name="lgnpswrd"></td></tr>
+			<tr><td align="left" colspan="2"><input type="submit" value="Login"></td></tr>
 		</table>
 	</form>
+	<form action="create_user.jsp">
+		<table>
+			<tr><td align="left" colspan="2"><input type="submit" value="Create Account"></td></tr>
+		</table>
+	</form>  
 </body>
 </html>

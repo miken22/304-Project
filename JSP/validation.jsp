@@ -10,18 +10,21 @@
 <body>
 	<%
 		session = request.getSession();
+		
 		Boolean valid = (Boolean)session.getAttribute("valid");
 		
 		if(valid == null){
 			String message = "You must be logged in to access this page";
 			session.setAttribute("msg", message);
-			response.sendRedirect("logon.jsp");
+			response.sendRedirect("login.jsp");
 		} else {
 			if(!valid){
 				String message = "You must be logged in to access this page";
 				session.setAttribute("msg", message);
-				response.sendRedirect("logon.jsp");
+				response.sendRedirect("login.jsp");
 			}
+			String userName = session.getAttribute("lgnuser").toString();
+			session.setAttribute("lgnuser",userName);
 		}
 	%>
 

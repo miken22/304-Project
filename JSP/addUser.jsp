@@ -88,15 +88,13 @@
 				response.sendRedirect("logon.jsp");
 				
 			} catch (SQLException e){
-				
+				con.close();
 			}
 		}
 	} catch (Exception e) {
+		con.close();
 		out.println("Error");
 	}
-	
-	
-	
 	
 	%>
 

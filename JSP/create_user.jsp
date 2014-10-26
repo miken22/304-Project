@@ -8,10 +8,34 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Create an Account</title>
 <style>
-	h1{color:red;}
+	h1 {
+		color: white;
+	}
+	input[type=submit] {
+		border: white;
+		background: transparent;
+		color: white;
+		font-family: "serif";
+		font-size: 14pt;
+		padding: 5px 5px;
+		z-index: -1;
+		width: 30x;
+	}
+	input[type=reset] {
+		border: white;
+		background: transparent;
+		color: white;
+		font-family: "serif";
+		font-size: 14pt;
+		padding: 5px 5px;
+		z-index: -1;
+		width: 30x;
+	}
 </style>
 </head>
 <body bgcolor="#EEEEEE">
+	
+	<%@ include file="general_banner.html" %>
 	
 	<%
 		session = request.getSession();
