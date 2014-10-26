@@ -18,7 +18,13 @@
 	table td{
 		margin: 5px 7px 5px 7px;
 	}
-	
+	table img{
+		max-height:100px;
+		max-width: 100px;
+		display: block; /*nothing sits beside it*/
+		vertical-align: top;
+		margin: 0px 10px 5px 10px; /*note: no commas*/
+	}
 </style>
 </head>
 <body>
@@ -37,6 +43,7 @@
 			private String name;
 			private int quant;
 			private int size;
+			private int tid;
 			private double discount;
 			private double itemPrice;
 			private double cost; // this is quant * price - discount;
@@ -69,7 +76,12 @@
 			public int getSize(){
 				return size;
 			}
-			
+			public void setThumbId(int id){
+				this.tid = id;
+			}
+			public int getThumbId(){
+				return tid;
+			}
 			// Will need another field/getter/setter for product image id.
 		}		
 	%>
@@ -126,15 +138,15 @@
 					itemMap.put(rs.getInt(1),item);		
 			}
 			
-			out.println("<table border=\"0\" width = \"100%\">");
-			out.println("<tr><th align=\"center\">Thumb</th><th align=\"center\">Item Name</th><th align=\"center\">Quantity</th><th align=\"right\">Price</th>");
+			out.println("<table border=\"0\" width = \"100%\" style=\"border-collapse: collapse;\">");
+			out.println("<tr><th align=\"center\">" + " " + "</th><th align=\"center\">What You Want</th><th align=\"center\">Quantity</th><th align=\"right\">Price</th>");
 			
 
 			
 			// For each item in the basket, get associated name and default price.
 			for(Integer i : itemMap.keySet()){
 				Items item = itemMap.get(i);
-				String productQuery = "SELECT pname, price FROM Products WHERE pid=?";
+				String productQuery = "SELECT pname, price, thumbID FROM Products WHERE pid=?";
 				PreparedStatement ps = con.prepareStatement(productQuery);
 				ps.setInt(1, i);
 				ResultSet prodResults = ps.executeQuery();
@@ -143,6 +155,7 @@
 				if(prodResults.next()){
 					item.setName(prodResults.getString(1));
 					item.setItemPrice(prodResults.getDouble(2));	// setting price invokes method to determine cost;
+					item.setThumbId(prodResults.getInt(3));
 					// Updates the DB to store to price the customer is paying for the product.
 					String updateBasketPrice = "UPDATE Basket SET price = " + item.getCost() + " WHERE uname = '" + uname  + "' AND pid=?";
 					PreparedStatement updatePS = con.prepareStatement(updateBasketPrice);
@@ -150,52 +163,45 @@
 					updatePS.executeUpdate();
 					totalCost += item.getCost();
 				}
+
+				// Build table of items, first block is thumbnail, the rest is order info.
+				out.println("<tr> <td> <img src=\"");
+				out.println(String.format("thumbs/%02d.jpg\" >", item.getThumbId()));
 				
-				// Build table of items
-				out.println("<tr style=\"height:20px\"> <td width=\"20%\">Insert Thumbnail Here</td> <td  width=\"40%\" align=\"center\"align=\"center\">" + item.getName() 
+				out.println("</td> <td  width=\"40%\" align=\"center\"align=\"center\">" + item.getName() 
 						+ "</td> <td width=\"20%\" align=\"center\">" + item.getQuantity() + "</td> <td width=\"20%\" align=\"right\"> $");
 				out.println(String.format("%.2f", item.getCost()));
 				out.println(" </td></tr>");
 			}
-			
-			out.println("<tr align=\"right\"><td></td><td></td><td></td><td> Subtotal: $");
+
+			out.println("<tr style=\"border-top:2px solid black\" align=\"right\"><td colspan=\"4\"> Subtotal: $");
 			out.println(String.format("%.2f", totalCost));
 			out.println(" </td></tr>");
 			double taxes = totalCost*0.12;
-			out.println("<tr align=\"right\"><td></td><td></td><td></td><td> Taxes: $");
+			out.println("<tr align=\"right\"><td colspan=\"4\"> Taxes: $");
 			out.println(String.format("%.2f", taxes));
 			out.println(" </td></tr>");
-			out.println("<tr align=\"right\"><td></td><td></td><td></td><td> Subtotal: $");
+			out.println("<tr align=\"right\"><td colspan=\"4\">  Subtotal: $");
 			out.println(String.format("%.2f", totalCost+taxes));
 			out.println(" </td></tr>");
-			out.println("</table>");
 			con.close();
-
-		
-		
-
-
 			
 		} catch (Exception e){
 			con.close();
 		}
 		
-	%>
-	
-	<div id="checkout">
-		<form name="checkout" method='post'>
-			<table>
-				<tr align="right"><td><input type="submit" name="checkout" value="Checkout"></td></tr>
-			</table>
-		</form>
-	</div>
-	<hr>
-	<br>
 
-	<!-- Handle checkout features -->
-	
+		out.println("<form method='post' >");
+		out.println("<tr align=\"center\"><td bgcolor=\"yellow\"><input class=\"checkout\" type=\"submit\" name=\"checkout\" value=\"Checkout\"></td> <td colspan=\"3\"> " + " " + "</td></tr>");
+		out.println("</form><hr><br>");
+		out.println("</table>");
+	%>
+
+
+		<!-- Handle checkout features -->
 	<%
 		String checkOut = request.getParameter("checkout");
+		// Listens for click in checkout form.
 		if("Checkout".equals(checkOut)){
 			// Form button clicked
 			if(itemMap.size() == 0){

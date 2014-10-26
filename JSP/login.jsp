@@ -46,7 +46,7 @@
 		
 		if (valid != null){
 			if(!valid){
-				out.println("<p>" + session.getAttribute("msg").toString() + "</p>");
+				out.println("<p align=\"center\">" + session.getAttribute("msg").toString() + "</p>");
 			}
 		}
 		
