@@ -6,7 +6,7 @@
 
 <style>
 h1 {
-	color: blue
+	color: gray;
 }
 
 #banner, image {
@@ -14,7 +14,7 @@ h1 {
 }
 
 #menus {
-	background-color: blue;
+	background-color: gray;
 	overflow: hidden;
 	width: 100%;
 	height: auto;
@@ -22,9 +22,9 @@ h1 {
 }
 
 input[type=submit] {
-	border: blue;
+	border: black;
 	background: transparent;
-	color: #fff;
+	color: black;
 	font-family: "serif";
 	font-size: 14pt;
 	padding: 5px 5px;
@@ -37,7 +37,7 @@ input[type=submit] {
 	display: inline-block;
 	height: auto;
 	text-align: center;
-	border-right: thin solid white;
+	border-right: thin solid black;
 	width: 125px;
 }
 </style>
@@ -49,17 +49,18 @@ input[type=submit] {
 			<div>
 				<div id="banner">
 					<h1>The Grid</h1>
+					<hr style="padding:0px; margin:0px;">
 				</div>
 			</div>
 			<div id="menus">
 				<div>
 					<form action="logout.jsp">
-						<input type="submit" value="Logout">
+						<input type="submit" value="Logout" name="logout">
 					</form>
 				</div>
 				<div>
 					<form action="shopping_cart.jsp">
-						<input type="submit" value="Cart">
+						<input type="submit" value="Cart" name="cart">
 					</form>
 				</div>
 				

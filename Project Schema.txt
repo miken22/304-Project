@@ -8,8 +8,12 @@ CREATE TABLE Products(
 	ptype VARCHAR(30),
 	pgender CHAR(1),
 	pdescription VARCHAR(250),
+	size INTEGER,
 	CHECK ( pgender = 'U' OR pgender = 'M' OR pgender = 'F')
 );
+ALTER TABLE Products
+ADD COLUMN thumbID INTEGER, 
+ADD COLUMN picID INTEGER;
 
 Account Schema
 CREATE TABLE Users(
@@ -33,6 +37,7 @@ CREATE TABLE Basket(
 	price NUMERIC(15,2),
 	shipped BOOLEAN NOT NULL,
 	discount DOUBLE DEFAULT 0,
+	size INTEGER,
 	FOREIGN KEY (uname) REFERENCES Users(uname),
 	FOREIGN KEY (pid) REFERENCES Products(pid)
 )
@@ -72,3 +77,19 @@ INSERT INTO Deals(pid, discount, duration) VALUES(
 account: mnowicki
 pw     : 92384072
 db     : db_mnowicki
+
+
+
+
+for (int i = 0 ; i < prodNames.size(); i++){
+					%>
+						<table>
+							<tr>
+								<%
+									out.println(prodNames.get(i));
+								%>
+							</tr>
+						</table>
+					<%
+				}
+				

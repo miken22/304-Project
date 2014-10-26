@@ -13,14 +13,66 @@
 	}
 	#greet p{
 		float: right;
+		z-index: 0;
 	}
+	table td{
+		margin: 5px 7px 5px 7px;
+	}
+	
 </style>
 </head>
 <body>
 
 	<%@ include file="validation.jsp" %>
-	<%! private String fname = ""; %>
-	<%! private String uname = ""; %>
+	<!-- Variables to use on page -->
+	<%! private String fname = "";
+		private String uname = "";
+		private double tax = 0;
+		private double totalCost = 0;
+		private HashMap<Integer, Items> itemMap= new HashMap<Integer, Items>();	
+	%>
+	<!-- Nested class to hold items  --> 
+	<%!	
+		private class Items{
+			private String name;
+			private int quant;
+			private int size;
+			private double discount;
+			private double itemPrice;
+			private double cost; // this is quant * price - discount;
+			
+			Items(int quantity, double discount, int size){
+				this.quant = quantity;
+				this.discount = discount;
+				this.size = size;
+			}
+			
+			public void setName(String name){
+				this.name = name;
+			}
+			public void setItemPrice(double price){
+				this.itemPrice = price;
+				setCost();
+			}
+			private void setCost(){
+				cost = (itemPrice * quant) * (1 - discount);
+			}
+			public double getCost(){
+				return cost;
+			}
+			public String getName(){
+				return name;
+			}	
+			public int getQuantity(){
+				return quant;
+			}
+			public int getSize(){
+				return size;
+			}
+			
+			// Will need another field/getter/setter for product image id.
+		}		
+	%>
 	
 	<%
 		session = request.getSession();
@@ -28,6 +80,7 @@
 		try{
 			fname = session.getAttribute("fname").toString();
 			uname = session.getAttribute("lgnuser").toString();
+			session.setAttribute("lgnuser", uname);
 		} catch (Exception e) {
 			out.println(e.toString());
 		}
@@ -39,12 +92,12 @@
 			</div>
 		</div>
 	</div>
+	
 	<%@ include file="login_banner.html" %>
 	
 	<br>
 	<br>
 	<br>
-	
 	<%
 		// Find if user has any items in the basket already, looks for "shipped" boolean in returned query.
 		try {
@@ -59,63 +112,139 @@
 			String pw = "92384072";
 			con = DriverManager.getConnection(url, uid, pw);
 			Statement stmt = con.createStatement();
-			String cartQuery = "SELECT pid, quantity FROM Basket WHERE(uname='" + uname + "' AND shipped=0)";
+			
+			// Query to check if user has any items in the basket that have not been shipped yet.
+			String cartQuery = "SELECT pid, quantity, discount, size FROM Basket WHERE(uname='" + uname + "' AND shipped=0)";
 			ResultSet rs = stmt.executeQuery(cartQuery);
-			if(rs.next()){
-				// Get size of results		
-				int numOfItems = rs.getFetchSize();
-				if (rs.last()) {
-					  numOfItems = rs.getRow();
-					  rs.beforeFirst();
-				}
-				rs.next();
-				
-				ArrayList<Integer> quantities = new ArrayList<Integer>(numOfItems);
-				ArrayList<Integer> pids = new ArrayList<Integer>(numOfItems);
-				for (int i = 0; i < numOfItems; i++){
-					pids.add(rs.getInt(1));
-					quantities.add(rs.getInt(2));
-				}
-				ArrayList<String> prodNames = new ArrayList<String>(numOfItems);
-				ArrayList<Double> prices = new ArrayList<Double>(numOfItems);
-				
-				// Something falls apart here, will look at it tomorrow.
-				for (int i = 0; i < numOfItems; i++){
-					int pid = pids.get(i);
-					int quantity = quantities.get(i);
-					String priceQuery = "select pname, price FROM Products where pid = " + pid;
-					PreparedStatement prepState = con.prepareStatement(priceQuery);
-					prepState.setInt(1,rs.getInt(1));
-					ResultSet prodRS = prepState.executeQuery();
-					if(prodRS.next()){
-						out.println(prodRS.getString(1));
-					}
-				}
-				
-				out.println(prodNames.size());
-				
-				for (int i = 0 ; i < prodNames.size(); i++){
-					%>
-						<table>
-							<tr>
-								<%
-									out.println(prodNames.get(i));
-								%>
-							</tr>
-						</table>
-					<%
-				}
-				
+			
+			// This hashes all items and their prices for easier lookup. 
+			
+			
+			while(rs.next()){ // Cycle through results creating an Item object for each
+					// Create an item for each PID, storing the amount and discount, gets hashed to PID.
+					Items item = new Items(rs.getInt(2),rs.getDouble(3),rs.getInt(4));
+					itemMap.put(rs.getInt(1),item);		
 			}
 			
+			out.println("<table border=\"0\" width = \"100%\">");
+			out.println("<tr><th align=\"center\">Thumb</th><th align=\"center\">Item Name</th><th align=\"center\">Quantity</th><th align=\"right\">Price</th>");
 			
+
+			
+			// For each item in the basket, get associated name and default price.
+			for(Integer i : itemMap.keySet()){
+				Items item = itemMap.get(i);
+				String productQuery = "SELECT pname, price FROM Products WHERE pid=?";
+				PreparedStatement ps = con.prepareStatement(productQuery);
+				ps.setInt(1, i);
+				ResultSet prodResults = ps.executeQuery();
+				
+				// Assignment
+				if(prodResults.next()){
+					item.setName(prodResults.getString(1));
+					item.setItemPrice(prodResults.getDouble(2));	// setting price invokes method to determine cost;
+					// Updates the DB to store to price the customer is paying for the product.
+					String updateBasketPrice = "UPDATE Basket SET price = " + item.getCost() + " WHERE uname = '" + uname  + "' AND pid=?";
+					PreparedStatement updatePS = con.prepareStatement(updateBasketPrice);
+					updatePS.setInt(1,i);
+					updatePS.executeUpdate();
+					totalCost += item.getCost();
+				}
+				
+				// Build table of items
+				out.println("<tr style=\"height:20px\"> <td width=\"20%\">Insert Thumbnail Here</td> <td  width=\"40%\" align=\"center\"align=\"center\">" + item.getName() 
+						+ "</td> <td width=\"20%\" align=\"center\">" + item.getQuantity() + "</td> <td width=\"20%\" align=\"right\"> $");
+				out.println(String.format("%.2f", item.getCost()));
+				out.println(" </td></tr>");
+			}
+			
+			out.println("<tr align=\"right\"><td></td><td></td><td></td><td> Subtotal: $");
+			out.println(String.format("%.2f", totalCost));
+			out.println(" </td></tr>");
+			double taxes = totalCost*0.12;
+			out.println("<tr align=\"right\"><td></td><td></td><td></td><td> Taxes: $");
+			out.println(String.format("%.2f", taxes));
+			out.println(" </td></tr>");
+			out.println("<tr align=\"right\"><td></td><td></td><td></td><td> Subtotal: $");
+			out.println(String.format("%.2f", totalCost+taxes));
+			out.println(" </td></tr>");
+			out.println("</table>");
+			con.close();
+
+		
+		
+
+
 			
 		} catch (Exception e){
 			con.close();
 		}
+		
 	%>
 	
+	<div id="checkout">
+		<form name="checkout" method='post'>
+			<table>
+				<tr align="right"><td><input type="submit" name="checkout" value="Checkout"></td></tr>
+			</table>
+		</form>
+	</div>
+	<hr>
+	<br>
+
+	<!-- Handle checkout features -->
 	
+	<%
+		String checkOut = request.getParameter("checkout");
+		if("Checkout".equals(checkOut)){
+			// Form button clicked
+			if(itemMap.size() == 0){
+				out.println("Nothing in your cart!");
+				return;
+			} else {
+				// Reconnect to DB
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+				} catch (java.lang.ClassNotFoundException e) {
+					System.err.println("ClassNotFoundException: " + e);
+				}
+				con = null;
+				try {
+					String url = "jdbc:mysql://cosc304.ok.ubc.ca/db_mnowicki";
+					String uid = "mnowicki";
+					String pw = "92384072";
+					con = DriverManager.getConnection(url, uid, pw);
+					
+					// Cycle through cart
+					for (Integer i : itemMap.keySet()){
+						Items item = itemMap.get(i);
+						// Mark order as shipped, part of assumption that payment by 3rd party and what now..
+						String updateBasket = "UPDATE Basket SET shipped=TRUE WHERE(uname=? AND pid=?)";
+						PreparedStatement ps = con.prepareStatement(updateBasket);
+						ps.setString(1,uname);
+						ps.setInt(2,i);
+						ps.executeUpdate();
+						
+						// Now inventory
+						int quantity = item.getQuantity();
+						int size = item.getSize();
+						String updateProducts = "UPDATE Products SET stock = stock - ? WHERE pid=? and size=?";
+						ps = con.prepareStatement(updateProducts);
+						ps.setInt(1, quantity);
+						ps.setInt(2, i);
+						ps.setInt(3, size);
+						ps.executeUpdate();
+					}
+					totalCost = 0;
+					con.close();
+					response.sendRedirect("http://www.paypal.com");
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		} 
+	
+	%>
 	
 </body>
 </html>

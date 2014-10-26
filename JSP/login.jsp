@@ -24,15 +24,19 @@
 		padding: 5px 5px;
 		z-index: -1;
 		width: 30x;
+		border: thin solid white;
 	}
 	form{
 		position: relative;
 		margin-left: 5%;
 		margin-right: 5%;
 	}
+	#lgn table{
+		border-color: white;
+	}
 </style>
 </head>
-<body>
+<body bgcolor="#EEEEE">
 
 	<h1 align="center">Welcome to <b><i>The Grid</i></b></h1>
 	<%
@@ -49,15 +53,15 @@
 	%>
 
 	<form name="login" method="post" action="authenticate.jsp">
-		<table>
-			<tr><td>Username:</td><td><input type="text" name="lgnuser"></td></tr>
-			<tr><td>Password:</td><td><input type="password" name="lgnpswrd"></td></tr>
-			<tr><td align="left" colspan="2"><input type="submit" value="Login"></td></tr>
+		<table id="lgn" BORDERCOLOR=WHITE align="center">
+			<tr><td>Username:</td><td><input type="text" name="lgnuser" style="width:100%"></td></tr>
+			<tr><td>Password:</td><td><input type="password" name="lgnpswrd" style="width:100%"></td></tr>
+			<tr><td colspan="2"><input type="submit" value="Login" style="width:100%"></td></tr>
+			<tr><td colspan="2" width="100%"><input type="submit" value="Create Account" style="width:100%"></td></tr>
 		</table>
 	</form>
 	<form action="create_user.jsp">
 		<table>
-			<tr><td align="left" colspan="2"><input type="submit" value="Create Account"></td></tr>
 		</table>
 	</form>  
 </body>
