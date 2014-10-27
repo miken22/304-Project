@@ -8,8 +8,7 @@
 <style>
 	h1 {
 		font-family: "serif";
-	}
-	
+	}	
 	p {
 		color: blue;
 		font-family: "serif";

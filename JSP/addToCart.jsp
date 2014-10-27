@@ -8,10 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
 	<%@ include file="validation.jsp" %>
-	
-	
-	
 </body>
 </html>

@@ -196,8 +196,6 @@
 		out.println("</form><hr><br>");
 		out.println("</table>");
 	%>
-
-
 		<!-- Handle checkout features -->
 	<%
 		String checkOut = request.getParameter("checkout");
@@ -243,13 +241,13 @@
 					}
 					totalCost = 0;
 					con.close();
+					session.invalidate();
 					response.sendRedirect("authorize.html");
 				} catch (Exception e){
 					e.printStackTrace();
 				}
 			}
-		} 
-	
+		} 		
 	%>
 	
 </body>
