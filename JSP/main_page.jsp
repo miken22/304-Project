@@ -4,19 +4,34 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>The Grid</title>
+<title>Title of Website</title>
+
+<!-- CSS Styling -->
 <style>
 body {   
 	background-attachment: "fixed";
 }
+
+#theDeal{
+text
+}
+
+#header1{
+border: 2px solid black;
+}
 </style>
 </head>
+
 <body>
 	<%@ include file="general_banner.html"%>
 
 
-	<div id="header1">
+	<div id="theDeal">
 		<h2>The DEAL:</h2>
+	</div>
+
+	<div id="header1">
+		
 
 		<%--Contact the database to acquire the product on sale --%>
 		<%@ page import="java.sql.*"%>
@@ -41,9 +56,10 @@ body {
 				String sql= "SELECT * FROM Deals ";
 				ResultSet rst= stmt.executeQuery(sql);
 			//TEST: Print result
-				out.print("<table width=50% border=1>"+"<tr><th>Results from Deals</th></tr>");
+				out.print("<table width=50% border=1>"+"<tr><th colspan='5'>Results from Deal (NOT PERMANENT TABLE; TESTING ONLY)</th><tr>");
+				out.print("<tr>"+"<td>" +"saleNum" + "</td>"+"<td>" +"pid" + "</td>"+"<td>" +"startDate" + "</td>"+"<td>" +"discount" + "</td>"+"<td>" +"duration" + "</td>"+"</tr>");
 				while (rst.next()){
-					out.println("<tr><td>" + rst.getString(0) + "</td></tr>");
+					out.println("<tr>"+"<td>" + rst.getString(1) + "</td>"+"<td>" + rst.getString(2) + "</td>"+"<td>" + rst.getString(3) + "</td>"+"<td>" + rst.getString(4) + "</td>"+"<td>" + rst.getString(5) + "</td>"+"</tr>");
 				}
 				out.println("</table>");
 			//Close Connection
