@@ -7,9 +7,6 @@
 <title>The Grid</title>
 <style>
 body {   
-	 background-image:
- 	    url("http://d1hw6n3yxknhky.cloudfront.net/002674271_prevstill.jpeg");
-
 	background-attachment: "fixed";
 }
 </style>
@@ -66,7 +63,7 @@ body {
 	</div>
 
 
-	<%//@ include file="timer.html"%>
+	<%@ include file="timer.html"%>
 
 	<%--
 	<%@ include file="itemHead.html" %>
