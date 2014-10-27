@@ -7,9 +7,6 @@
 <title>The Grid</title>
 <style>
 body {   
-	 background-image:
- 	    url("http://d1hw6n3yxknhky.cloudfront.net/002674271_prevstill.jpeg");
-
 	background-attachment: "fixed";
 }
 </style>
@@ -46,7 +43,7 @@ body {
 			//TEST: Print result
 				out.print("<table width=50% border=1>"+"<tr><th>Results from Deals</th></tr>");
 				while (rst.next()){
-					out.println("<tr><td>" + rst.getString(0) + "</td></tr>");
+					out.println("<tr><td>" + rst.getString(1) + "</td></tr>");
 				}
 				out.println("</table>");
 			//Close Connection
@@ -66,7 +63,7 @@ body {
 	</div>
 
 
-	<%//@ include file="timer.html"%>
+	<%@ include file="timer.html"%>
 
 	<%--
 	<%@ include file="itemHead.html" %>
