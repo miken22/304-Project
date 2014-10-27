@@ -146,7 +146,7 @@
 			// For each item in the basket, get associated name and default price.
 			for(Integer i : itemMap.keySet()){
 				Items item = itemMap.get(i);
-				String productQuery = "SELECT pname, price, thumbID FROM Products WHERE pid=?";
+				String productQuery = "SELECT pname, price, thumbID FROM Products WHERE pid=?;";
 				PreparedStatement ps = con.prepareStatement(productQuery);
 				ps.setInt(1, i);
 				ResultSet prodResults = ps.executeQuery();
@@ -243,7 +243,7 @@
 					}
 					totalCost = 0;
 					con.close();
-					response.sendRedirect("http://www.paypal.com");
+					response.sendRedirect("authorize.html");
 				} catch (Exception e){
 					e.printStackTrace();
 				}

@@ -33,7 +33,7 @@
 	}
 </style>
 </head>
-<body bgcolor="#EEEEEE">
+<body>
 	
 	<%@ include file="general_banner.html" %>
 	
@@ -41,7 +41,6 @@
 		session = request.getSession();
 		if(session.getAttribute("msg") != null){
 			out.println("<font color=\"red\" <p align=\"center\">" + session.getAttribute("msg").toString() + "</p> </font>");
-			
 		}
 	%>
 	
@@ -64,8 +63,5 @@
 		<tr align="center"><td><input type="submit" value="Register!"></td><td><input type="reset" value="Start Over"></td></tr>
 		</table>	
 	</form>
-	
-	
-
 </body>
 </html>

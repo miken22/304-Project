@@ -57,11 +57,12 @@
 			<tr><td>Username:</td><td><input type="text" name="lgnuser" style="width:100%"></td></tr>
 			<tr><td>Password:</td><td><input type="password" name="lgnpswrd" style="width:100%"></td></tr>
 			<tr><td colspan="2"><input type="submit" value="Login" style="width:100%"></td></tr>
-			<tr><td colspan="2" width="100%"><input type="submit" value="Create Account" style="width:100%"></td></tr>
+			
 		</table>
 	</form>
 	<form action="create_user.jsp">
-		<table>
+		<table BORDERCOLOR=WHITE align="center">
+			<tr><td colspan="2" width="100%"><input type="submit" value="Create Account" style="width:100%"></td></tr>
 		</table>
 	</form>  
 </body>
