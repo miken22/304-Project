@@ -25,9 +25,20 @@
 		vertical-align: top;
 		margin: 0px 10px 5px 10px; /*note: no commas*/
 	}
+	input[type=button] {
+		border: black;
+		background: transparent;
+		color: black;
+		font-family: "serif";
+		font-size: 14pt;
+		padding: 5px 5px;
+		z-index: -1;
+		width: 30x;
+	}
 </style>
 </head>
 <body>
+
 
 	<%@ include file="validation.jsp" %>
 	<!-- Variables to use on page -->
@@ -184,21 +195,28 @@
 			out.println("<tr align=\"right\"><td colspan=\"4\">  Subtotal: $");
 			out.println(String.format("%.2f", totalCost+taxes));
 			out.println(" </td></tr>");
+			totalCost = 0;
 			con.close();
 			
 		} catch (Exception e){
 			con.close();
 		}
-		
+
+		out.println("</table><table>");
 
 		out.println("<form method='post' >");
-		out.println("<tr align=\"center\"><td bgcolor=\"yellow\"><input class=\"checkout\" type=\"submit\" name=\"checkout\" value=\"Checkout\"></td> <td colspan=\"3\"> " + " " + "</td></tr>");
+		out.println("<tr align=\"center\"><td bgcolor=\"yellow\"><input class=\"checkout\" type=\"submit\" name=\"checkout\" value=\"Checkout\"></td>");
+		out.println("<td bgcolor=\"yellow\"><input class=\"clearAll\" type=\"submit\" name=\"clearAll\" value=\"Clear Cart\" onclick=\"shopping_cart.jsp;\"></td></tr>");
+		//out.println("<td bgcolor=\"yellow\"><input class=\"checkout\" type=\"button\" name=\"delete\" value=\"Delete Items\"></td></tr>");
+		
+	
 		out.println("</form><hr><br>");
 		out.println("</table>");
 	%>
 		<!-- Handle checkout features -->
 	<%
 		String checkOut = request.getParameter("checkout");
+		String clearAll = request.getParameter("clearAll");
 		// Listens for click in checkout form.
 		if("Checkout".equals(checkOut)){
 			// Form button clicked
@@ -238,6 +256,13 @@
 						ps.setInt(2, i);
 						ps.setInt(3, size);
 						ps.executeUpdate();
+						
+						// User History
+						String updateHistory = "INSERT INTO UserHistory VALUES(uname = ?, pid = ?)";
+						ps = con.prepareStatement(updateHistory);
+						ps.setString(1,uname);
+						ps.setInt(2,i);
+						ps.executeUpdate();
 					}
 					totalCost = 0;
 					con.close();
@@ -247,8 +272,38 @@
 					e.printStackTrace();
 				}
 			}
-		} 		
+		} else if("Clear Cart".equals(clearAll)) {
+			if(itemMap.size() == 0){
+				out.println("Nothing in your cart!");
+				return;
+			} else {
+				// Reconnect to DB
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+				} catch (java.lang.ClassNotFoundException e) {
+					System.err.println("ClassNotFoundException: " + e);
+				}
+				try {
+					String url = "jdbc:mysql://cosc304.ok.ubc.ca/db_mnowicki";
+					String uid = "mnowicki";
+					String pw = "92384072";
+					Connection con1 = DriverManager.getConnection(url, uid, pw);
+					
+					String updateBasket = "DELETE FROM Basket WHERE uname=? AND shipped=FALSE";
+					PreparedStatement ps = con1.prepareStatement(updateBasket);
+					ps.setString(1,uname);
+					ps.executeUpdate();
+					itemMap.clear();
+					response.sendRedirect("shopping_cart.jsp");
+					con1.close();
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+		
 	%>
+	
 	
 </body>
 </html>
