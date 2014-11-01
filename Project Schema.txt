@@ -1,7 +1,7 @@
 Product Schema
 CREATE TABLE Products(
 	pname VARCHAR(30),
-	pid INTEGER PRIMARY KEY,
+	pid INTEGER,
 	price DOUBLE NOT NULL,
 	photoID integer NOT NULL,
 	stock INTEGER,
@@ -40,8 +40,7 @@ CREATE TABLE Basket(
 	discount DOUBLE DEFAULT 0,
 	size INTEGER,
 	FOREIGN KEY (uname) REFERENCES Users(uname),
-	FOREIGN KEY (pid) REFERENCES Products(pid),
-	PRIMARY KEY(uname)
+	FOREIGN KEY (pid) REFERENCES Products(pid)
 )
 
 Account History
@@ -49,8 +48,7 @@ CREATE TABLE UserHistory(
 	uname VARCHAR(25),
 	pid INTEGER,
 	FOREIGN KEY (uname) REFERENCES Users(uname),
-	FOREIGN KEY (pid) REFERENCES Products(pid),
-	PRIMARY KEY (uname)
+	FOREIGN KEY (pid) REFERENCES Products(pid)
 )
 
 Main Deal
