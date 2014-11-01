@@ -1,7 +1,7 @@
 Product Schema
 CREATE TABLE Products(
 	pname VARCHAR(30),
-	pid INTEGER PRIMARY KEY,
+	pid INTEGER,
 	price DOUBLE NOT NULL,
 	photoID integer NOT NULL,
 	stock INTEGER,
