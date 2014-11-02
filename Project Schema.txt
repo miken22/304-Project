@@ -1,7 +1,7 @@
 Product Schema
 CREATE TABLE Products(
 	pname VARCHAR(30),
-	pid INTEGER PRIMARY KEY,
+	pid INTEGER,
 	price DOUBLE NOT NULL,
 	photoID integer NOT NULL,
 	stock INTEGER,
@@ -9,11 +9,11 @@ CREATE TABLE Products(
 	pgender CHAR(1),
 	pdescription VARCHAR(250),
 	size INTEGER,
+	thumbID INTEGER, 
+	picID INTEGER;
 	CHECK ( pgender = 'U' OR pgender = 'M' OR pgender = 'F')
+    PRIMARY KEY(pid,size);
 );
-ALTER TABLE Products
-ADD COLUMN thumbID INTEGER, 
-ADD COLUMN picID INTEGER;
 
 Account Schema
 CREATE TABLE Users(
@@ -25,6 +25,7 @@ CREATE TABLE Users(
 	street VARCHAR(50) NOT NULL,
 	city VARCHAR(15) NOT NULL,
 	prov CHAR(2) NOT NULL,
+	postalcode VARCHAR(6) NOT NULL,
 	gender CHAR(1) NOT NULL
 );
 
@@ -65,6 +66,7 @@ CREATE TRIGGER setStartDate BEFORE INSERT ON Deals
 		SET NEW.startDate = NOW();   
 	END;; 
 DELIMITER ;
+
 // HOW TO INSERT:
 INSERT INTO Deals(pid, discount, duration) VALUES(
 	01,
@@ -73,23 +75,6 @@ INSERT INTO Deals(pid, discount, duration) VALUES(
 )
 --> The 15 means 15 minutes
 
-
 account: mnowicki
 pw     : 92384072
 db     : db_mnowicki
-
-
-
-
-for (int i = 0 ; i < prodNames.size(); i++){
-					%>
-						<table>
-							<tr>
-								<%
-									out.println(prodNames.get(i));
-								%>
-							</tr>
-						</table>
-					<%
-				}
-				

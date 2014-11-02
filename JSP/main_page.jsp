@@ -59,7 +59,11 @@ border: 2px solid black;
 				out.print("<table width=50% border=1>"+"<tr><th colspan='5'>Results from Deal (NOT PERMANENT TABLE; TESTING ONLY)</th><tr>");
 				out.print("<tr>"+"<td>" +"saleNum" + "</td>"+"<td>" +"pid" + "</td>"+"<td>" +"startDate" + "</td>"+"<td>" +"discount" + "</td>"+"<td>" +"duration" + "</td>"+"</tr>");
 				while (rst.next()){
+<<<<<<< HEAD
 					out.println("<tr>"+"<td>" + rst.getString(1) + "</td>"+"<td>" + rst.getString(2) + "</td>"+"<td>" + rst.getString(3) + "</td>"+"<td>" + rst.getString(4) + "</td>"+"<td>" + rst.getString(5) + "</td>"+"</tr>");
+=======
+					out.println("<tr><td>" + rst.getString(1) + "</td></tr>");
+>>>>>>> origin/master
 				}
 				out.println("</table>");
 			//Close Connection
