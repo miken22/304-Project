@@ -35,6 +35,7 @@
 		z-index: -1;
 		width: 30x;
 	}
+	
 </style>
 </head>
 <body>
@@ -304,6 +305,9 @@
 		
 	%>
 	
-	
+	<form method="get" action="item.jsp">
+		<input type="hidden" name="pid" value="01">
+		<input type="image" src="thumbs/01.jpg">
+	</form>
 </body>
 </html>
