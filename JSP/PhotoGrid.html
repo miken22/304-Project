@@ -17,6 +17,11 @@
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 		<base target="_parent" />
+		<!--<script language="javascript" type="text/javascript">
+			function resizeIframe(obj) {
+				obj.style.height = obj.contentWindow.document.table.scrollHeight + 'px';
+			}
+	</script>-->
 	</head>
 
 	<style>
@@ -27,8 +32,8 @@
 		iframe{
 			margin-left: 10%;
 			width: 80%;
-			height: 800px;
-			
+			height: 500px;
+			border: none;
 		}
 		h1 {
 			color: black;
@@ -101,7 +106,7 @@
 		
 		
 		<div id="PhotoGrid">
-			<iframe src="layout.html" align="center" >
+			<iframe src="layout.html" align="center" onclick="javascript:resizeIframe(this);">
 			</iframe>
 		</div>
 		
