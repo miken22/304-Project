@@ -304,10 +304,5 @@
 		}
 		
 	%>
-	
-	<form method="get" action="item.jsp">
-		<input type="hidden" name="pid" value="01">
-		<input type="image" src="thumbs/01.jpg">
-	</form>
 </body>
 </html>
