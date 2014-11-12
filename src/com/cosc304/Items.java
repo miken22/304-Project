@@ -1,19 +1,19 @@
 package com.cosc304;
 
 public class Items {
-	private String name;
-	private int quant;
-	private int size;
-	private Integer pid;
-	private double price;
-	private int stock;
+	private String name = "";
+	private int quant = 0;
+	private int size = 0;
+	private int pid = 0;
+	private double price = 0;
+	private int stock = 0;
 	private String ptype="";
 	private String pgender="";
 	private String pdescription="";
-	private int tid;
-	private double discount;
-	private double itemPrice;
-	private double cost; // this is quant * price - discount;
+	private int tid = 0;
+	private double discount = 0;
+	private double itemPrice = 0;
+	private double cost = 0; // this is quant * price - discount;
 	
 	public Items(){}
 	
