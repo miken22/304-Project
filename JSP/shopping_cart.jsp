@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*" %>
+<%@ page import="com.cosc304.Items" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -49,54 +50,6 @@
 		private double totalCost = 0;
 		private HashMap<Integer, Items> itemMap= new HashMap<Integer, Items>();	
 	%>
-	<!-- Nested class to hold items  --> 
-	<%!	
-		private class Items{
-			private String name;
-			private int quant;
-			private int size;
-			private int tid;
-			private double discount;
-			private double itemPrice;
-			private double cost; // this is quant * price - discount;
-			
-			Items(int quantity, double discount, int size){
-				this.quant = quantity;
-				this.discount = discount;
-				this.size = size;
-			}
-			
-			public void setName(String name){
-				this.name = name;
-			}
-			public void setItemPrice(double price){
-				this.itemPrice = price;
-				setCost();
-			}
-			private void setCost(){
-				cost = (itemPrice * quant) * (1 - discount);
-			}
-			public double getCost(){
-				return cost;
-			}
-			public String getName(){
-				return name;
-			}	
-			public int getQuantity(){
-				return quant;
-			}
-			public int getSize(){
-				return size;
-			}
-			public void setThumbId(int id){
-				this.tid = id;
-			}
-			public int getThumbId(){
-				return tid;
-			}
-			// Will need another field/getter/setter for product image id.
-		}		
-	%>
 	
 	<%
 		session = request.getSession();
@@ -117,7 +70,7 @@
 		</div>
 	</div>
 	
-	<%@ include file="login_banner.html" %>
+	<%@ include file="general_banner.html" %>
 	
 	<br>
 	<br>
@@ -165,7 +118,7 @@
 				
 				// Assignment
 				if(prodResults.next()){
-					item.setName(prodResults.getString(1));
+					item.setPname(prodResults.getString(1));
 					item.setItemPrice(prodResults.getDouble(2));	// setting price invokes method to determine cost;
 					item.setThumbId(prodResults.getInt(3));
 					// Updates the DB to store to price the customer is paying for the product.
@@ -180,7 +133,7 @@
 				out.println("<tr> <td> <img src=\"");
 				out.println(String.format("thumbs/%02d.jpg\" >", item.getThumbId()));
 				
-				out.println("</td> <td  width=\"40%\" align=\"center\"align=\"center\">" + item.getName() 
+				out.println("</td> <td  width=\"40%\" align=\"center\"align=\"center\">" + item.getPname() 
 						+ "</td> <td width=\"20%\" align=\"center\">" + item.getQuantity() + "</td> <td width=\"20%\" align=\"right\"> $");
 				out.println(String.format("%.2f", item.getCost()));
 				out.println(" </td></tr>");

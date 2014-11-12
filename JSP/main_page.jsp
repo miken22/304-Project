@@ -9,9 +9,34 @@
 body {   
 	background-attachment: "fixed";
 }
+#greet div {
+	position:relative;
+	width: 100%;
+}
+#greet p{
+	float:right;
+}
 </style>
 </head>
 <body>
+	<%! private String fname = ""; %>
+	<%! private String uname = ""; %>
+	
+	<div>
+		<div id="greet">
+			<%	
+				session = request.getSession();
+				try{
+					fname = session.getAttribute("fname").toString();
+					uname = session.getAttribute("lgnuser").toString();
+					session.setAttribute("lgnuser", uname);
+					out.println("<p>Welcome " + fname + "</p>");
+				} catch (Exception e){
+					out.println("");
+				}
+			%>
+		</div>
+	</div>
 	<%@ include file="general_banner.html"%>
 
 
@@ -27,7 +52,7 @@ body {
 			} catch (java.lang.ClassNotFoundException e) {
 				System.err.println("ClassNotFoundException: " +e);
 			}
-				//Establish Connection
+			//Establish Connection
 			Connection con = null;
 			try {
 			//Credentials
