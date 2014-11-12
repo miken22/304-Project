@@ -17,26 +17,17 @@
 	private String uname = "";
 	private double tax = 0;
 	private double totalCost = 0;
-	private ArrayList<Items> itemMap=new ArrayList<>();
-	private Items item;
+	private ArrayList<Items> itemMap=new ArrayList<Items>();
+	private Items item = new Items();
 	%>
 
 	<!-- Get Session and Item Information -->
 	<%
 		session = request.getSession();
 
-		//Collect Username ('uname') from session
-		try {
-			fname = session.getAttribute("fname").toString();
-			uname = session.getAttribute("lgnuser").toString();
-			session.setAttribute("lgnuser", uname);
-		} catch (Exception e) {
-			out.println(e.toString());
-		}
-
-		//Collect URL Product ID (pid) Parameter, and Set To Session
+		//Collect URL Product ID (pid) Parameter, and Set To Session - Save to a variable
 		session.setAttribute("pid",request.getParameter("pid"));
-
+		int pid = Integer.valueOf(request.getParameter("pid"));
 		//NOTE!@# Refer to shopping cart "?" for prepared statements
 
 		//Create Database Connection
@@ -58,7 +49,7 @@
 			//SQL Statement
 			String sql = "SELECT * FROM Products WHERE pid=?;";
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, Integer.parseInt(session.getAttribute("pid").toString()));
+			ps.setInt(1, pid);
 			ResultSet rst = ps.executeQuery();
 			//!@#More than 1 result can come back for different sizes
 			int index=0;
@@ -79,8 +70,8 @@
 				itemMap.add(index, item);
 				index++;
 			}
-			out.println("</table>");
-
+			out.println("UHHHHH");
+			
 			//Close Connection
 			con.close();
 		} catch (SQLException ex) {
