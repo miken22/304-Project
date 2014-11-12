@@ -15,6 +15,8 @@ public class Items {
 	private double itemPrice;
 	private double cost; // this is quant * price - discount;
 	
+	public Items(){}
+	
 	public Items(int quantity, double discount, int size){
 		this.quant = quantity;
 		this.discount = discount;
@@ -37,6 +39,9 @@ public class Items {
 		
 		//!@#do a check for pid=THE DEAL (currrently)
 		//discount=0 for itemPage
+	}
+	public double getDiscount(){
+		return discount;
 	}
 	
 	public void setPname(String name){

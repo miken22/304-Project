@@ -70,7 +70,6 @@
 				itemMap.add(index, item);
 				index++;
 			}
-			out.println("UHHHHH");
 			
 			//Close Connection
 			con.close();
