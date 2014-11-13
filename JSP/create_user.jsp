@@ -8,13 +8,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Create an Account</title>
 <style>
+	body {
+		background-image: url("http://cdn4.coresites.mpora.com/whitelines_new/wp-content/uploads/2010/10/Gigi-Ruf-Snowboard-Wallpaper-1900x1200.jpg");
+		background-attachment: fixed;
+	}
 	h1 {
-		color: white;
+		color: black;
 	}
 	input[type=submit] {
 		border: white;
 		background: transparent;
-		color: white;
+		color: black;
 		font-family: "serif";
 		font-size: 14pt;
 		padding: 5px 5px;
@@ -24,7 +28,7 @@
 	input[type=reset] {
 		border: white;
 		background: transparent;
-		color: white;
+		color: black;
 		font-family: "serif";
 		font-size: 14pt;
 		padding: 5px 5px;
