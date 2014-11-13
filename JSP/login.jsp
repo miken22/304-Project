@@ -39,14 +39,26 @@
 	}
 </style>
 </head>
-<body bgcolor="#EEEEE">
+
+<script>
+function breakout_of_frame()
+{
+  // see http://www.thesitewizard.com/archive/framebreak.shtml
+  // for an explanation of this script and how to use it on your
+  // own website
+  if (top.location != location) {
+    top.location.href = document.location.href ;
+  }
+}
+</script>
+<body bgcolor="#EEEEE" onLoad="breakout_of_frame()">
 
 	<h1 align="center">Welcome to <b><i>The Grid</i></b></h1>
 	<%
 		session = request.getSession();
 		Boolean valid = (Boolean)session.getAttribute("valid");
 		session.setAttribute("valid", valid);
-		
+		session.setAttribute("src", request.getHeader("referer"));
 		if (valid != null){
 			if(!valid){
 				out.println("<p align=\"center\">" + session.getAttribute("msg").toString() + "</p>");
