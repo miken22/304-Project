@@ -26,7 +26,7 @@
 		font-size: 15pt;
 		padding: 5px 5px;
 		z-index: -1;
-		width: 30x;
+		width: 100%;
 		border: thin solid white;
 	}
 	form{
@@ -77,7 +77,7 @@ function breakout_of_frame()
 	</form>
 	<form action="create_user.jsp">
 		<table BORDERCOLOR=WHITE align="center">
-			<tr><td colspan="2" width="100%"><input type="submit" value="Create Account" style="width:100%"></td></tr>
+			<tr><td colspan="2" width="100%"><input type="submit" value="Create Account" ></td></tr>
 		</table>
 	</form>  
 </body>

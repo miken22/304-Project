@@ -10,6 +10,23 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Check this</title>
+
+<style>
+input[type=submit] {
+	border: white;
+	background: transparent;
+	color: black;
+	font-family: "serif";
+	font-size: 15pt;
+	padding: 5px 5px;
+	z-index: -1;
+	width: 30x;
+}
+#prodPic img{
+	height:70%;
+	width:35%;
+}
+</style>
 </head>
 
 <body>
@@ -86,83 +103,80 @@ DecimalFormat money = new DecimalFormat("'$'0.00");
 //selected first item in itemMap
 //!@# later, we hook the list to populate the screen with the desired item
 
-if(itemMap.size()>0){
-//There is at least one item size, so get the first item
-	Items item=itemMap.get(0);
+if (itemMap.size() > 0) {
+	//There is at least one item size, so get the first item
+	Items item = itemMap.get(0);
 
-//check for sessionary size info
-if(session.getAttribute("size")!=null){
-	out.println("previously listed size");
-}else{
-	out.println("NO previously listed size");
-	session.setAttribute("size", item.getSize());
-}
+	//Item Picture
+	//div			
+	out.println("<div id=\"product\"");
+			out.print("<div id=\"itemPic\">");
+			out.print("<table cellspacing=20>");
+			out.print("<tr><th colspan='3'><font size=\"6\"color=\"black\">" + item.getPname()
+					+ "</font></th></tr>");
+			out.print("<tr><td rowspan='4'><img name=\"prodPic\" src=\"");
+			//img src
+			out.println(String.format("thumbs/%02d.jpg\" width=234 height=348>",
+					item.getThumbId()));
+			//img properties
+			out.println("</td></tr>");
+			//end div
+			out.print("</div>");
 
-//Item Picture
-//div
- out.print("<div id=\"itemPic\">");
-out.print("<tr><td><img src=\"");
-//img src
-out.println(String.format("thumbs/%02d.jpg\">", item.getThumbId()));
-//img properties
-out.println("</td>");
-//end div
-out.print("</div>");
+			//Item Info Table
+			//div
+			out.print("<div id=\"itemInfo\" class='box'>");
+			//name of item
+			
+			//price
+			out.print("<tr><td colspan='3' bgcolor='grey'><font size=\"4\"color=\"white\"><b><table cellspacing=20>");
+			out.print("<tr><td><b>&nbsp;Sex:</b></td><td>"
+					+ item.getPgender() + "</td></tr>");
+			out.print("<tr><td><b>&nbsp;Price:</b></td><td>"
+					+ money.format(item.getPrice()) + "</td></tr>");
+			//description
+			out.print("<tr><td><b>&nbsp;Description:</b></td><td><p>"
+					+ item.getPdescription() + "</p></td></tr>");
+			
+			out.print("</b></font><tr>");
+			out.print("<div id=\"prodlist\" float=\"right\">");
+			out.println("<form method=\"get\">");
+			out.println("<td><select name=\"sizeList\" class='sizeList'>");
+			for (int i = 0; i < itemMap.size(); i++) {
+				char size = 'M'; // Sizes
+				switch (itemMap.get(i).getSize()) {
+				case (1):
+					size = 'S';
+					break;
+				case (2):
+					size = 'M';
+					break;
+				case (3):
+					size = 'L';
+					break;
+				case (4):
+					size = 'X';
+					break;
+				}
+				// Print dropdown menu
+				out.print("<option value=\"" + itemMap.get(i).getSize()
+						+ "\">" + size + " - Stock: "
+						+ itemMap.get(i).getStock() + "</option>");
+			}
+			out.println("</select></td><td bgcolor='yellow' align='center'>");
+			out.println("<input type=\"hidden\" name=\"pid\" value=\""
+					+ item.getPid() + "\" >");
+			out.println("<input type=\"submit\" name=\"addToCart\" class=\"addToCart\" value=\"Add to Cart\">");
+			out.println("</td></form>");
 
-
-//Item Info Table
-	//div
-	out.print("<div id=\"itemInfo\" class='box'>");
-	//name of item
-	out.print("<table><tr><th colspan='2'><h3>"+item.getPname()+"</h3></th></tr>");
-	//price
-	out.print("<tr><td><b>&nbsp;Price:</b></td><td>"+ money.format(item.getPrice())+"</td></tr>");
-	//description
-	out.print("<tr><td><b>&nbsp;Description:</b></td><td><p>"+ item.getPdescription()+"</p></td></tr>");
-	//sizes - This doesn't work since 3 different items in the ArrayList are different sizes, this only gets
-	// the last one. Leave these two out as they will be shown in options list.
-	//stock or Quantity
-	out.print("<tr><td><b>&nbsp;Sex:</b></td><td>"+ item.getPgender()+"</td></tr>");
+			// End nested table
+			out.print("</table></td></tr>");
+			
+			//end table and div
+			out.print("</table></div>");
+			out.println("</div>");
 	
-	//end table and div
-	out.print("</table></div>");
 	
-
-//Available size list (Radio Buttons)
-/*
-out.print("<div id=\"list\">");
-out.print("<form action=\"response.sendRedirect(\"itemPage.jsp\")\"");
-for(int i=0; i<itemMap.size();i++){
-out.print("<input type=\"radio\" name=\"sizeButton\" value=\""+itemMap.get(i).getSize()+"\">"+"Size "+itemMap.get(i).getSize()+"<br>");
-}*/
-
-out.print("<div id=\"prodlist\">");
-out.println("<form method=\"get\">");
-out.println("<select name=\"sizeList\">");
-for(int i=0; i<itemMap.size();i++){
-	char size = 'M';	// Sizes
-	switch(itemMap.get(i).getSize()){
-	case(1):
-		size = 'S';
-		break;
-	case(2):
-		size = 'M';
-		break;
-	case(3):
-		size = 'L';
-		break;
-	case(4):
-		size = 'X';
-		break;
-	}
-// Print dropdown menu
-out.print("<option value=\""+ itemMap.get(i).getSize() + "\">" + size + " - Stock: " + itemMap.get(i).getStock() + "</option>");
-}
-out.println("</select>");
-out.println("<input type=\"hidden\" name=\"pid\" value=\"" + item.getPid() + "\" >");
-out.println("<input type=\"submit\" name=\"addToCart\" class=\"addToCart\" value=\"Add to Cart\">");
-out.println("</form>");
-
 String addItem = request.getParameter("addToCart");
 if("Add to Cart".equals(addItem)){
 	int size = Integer.valueOf(request.getParameter("sizeList"));
@@ -184,7 +198,6 @@ if("Add to Cart".equals(addItem)){
 }else{
 	out.print("Error, no items in itemMap");
 }
-
 
 %>
 
