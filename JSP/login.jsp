@@ -46,7 +46,7 @@
 		session = request.getSession();
 		Boolean valid = (Boolean)session.getAttribute("valid");
 		session.setAttribute("valid", valid);
-		
+		session.setAttribute("src", request.getHeader("referer"));
 		if (valid != null){
 			if(!valid){
 				out.println("<p align=\"center\">" + session.getAttribute("msg").toString() + "</p>");

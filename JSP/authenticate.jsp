@@ -11,6 +11,7 @@
 	<%
 		String userName = request.getParameter("lgnuser");
 		String password = request.getParameter("lgnpswrd");
+		String src_page = request.getParameter("src");
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
