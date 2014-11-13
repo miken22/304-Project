@@ -8,13 +8,34 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 </head>
-<body>
+
+<script>
+function breakout_of_frame()
+{
+  // see http://www.thesitewizard.com/archive/framebreak.shtml
+  // for an explanation of this script and how to use it on your
+  // own website
+  if (top.location != location) {
+    top.location.href = document.location.href ;
+  }
+}
+</script>
+
+
+<body onLoad="breakout_of_frame()">
 	<!-- Verify user has an account to add items to their cart -->
+	
 	<%@ include file="validation.jsp" %>
 	
 	<%
+		String uname = "";
 		session = request.getSession();
-		String uname = session.getAttribute("lgnuser").toString();
+		try{
+			uname = session.getAttribute("lgnuser").toString();
+		} catch (NullPointerException e){
+			session.setAttribute("msg", "You must be logged in to do this.");
+			//response.sendRedirect("login.jsp");
+		}
 		Items item = (Items)session.getAttribute("item");
 		
 		String sql = "";

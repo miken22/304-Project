@@ -39,7 +39,19 @@
 	
 </style>
 </head>
-<body>
+
+<script>
+function breakout_of_frame()
+{
+  // see http://www.thesitewizard.com/archive/framebreak.shtml
+  // for an explanation of this script and how to use it on your
+  // own website
+  if (top.location != location) {
+    top.location.href = document.location.href ;
+  }
+}
+</script>
+<body onLoad="breakout_of_frame()">
 
 
 	<%@ include file="validation.jsp" %>
@@ -161,9 +173,7 @@
 		out.println("<form method='post' >");
 		out.println("<tr align=\"center\"><td bgcolor=\"yellow\"><input class=\"checkout\" type=\"submit\" name=\"checkout\" value=\"Checkout\"></td>");
 		out.println("<td bgcolor=\"yellow\"><input class=\"clearAll\" type=\"submit\" name=\"clearAll\" value=\"Clear Cart\" onclick=\"shopping_cart.jsp;\"></td></tr>");
-		//out.println("<td bgcolor=\"yellow\"><input class=\"checkout\" type=\"button\" name=\"delete\" value=\"Delete Items\"></td></tr>");
-		
-	
+			
 		out.println("</form><hr><br>");
 		out.println("</table>");
 	%>
