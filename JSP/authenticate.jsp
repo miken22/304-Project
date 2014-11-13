@@ -39,7 +39,7 @@
 				}
 				session.setMaxInactiveInterval(900);
 				session.setAttribute("valid",valid);
-				response.sendRedirect("logged_in_main.jsp");
+				response.sendRedirect("main_page.jsp");
 			} else {
 				session.setAttribute("valid",valid);
 				String message = "Invalid user credentials.";

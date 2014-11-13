@@ -85,7 +85,7 @@
 				}
 				session.setAttribute("allowed", Boolean.valueOf(allowable));
 				con.close();
-				response.sendRedirect("logon.jsp");
+				response.sendRedirect("login.jsp");
 				
 			} catch (SQLException e){
 				con.close();
