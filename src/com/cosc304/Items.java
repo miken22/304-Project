@@ -114,4 +114,7 @@ public class Items {
 	public void setDiscount(double discount){
 		this.discount = discount;
 	}
+	public void setQuantity(int q){
+		this.quant = q;
+	}
 }
