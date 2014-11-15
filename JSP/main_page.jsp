@@ -56,7 +56,6 @@ body {
 		private String pdescription="";
 		private int tid = 0;
 		private double discount = 0;
-		private double itemPrice = 0;
 		private double cost = 0; // this is quant * price - discount;
 		
 		public Items(){}
@@ -77,7 +76,6 @@ body {
 			setPdescription(pdescription);
 			setSize(size);
 			setThumbId(thumbId);
-			setDiscount(0);
 			//!@# left out picID and photoID for now.
 			
 			
@@ -91,12 +89,9 @@ body {
 		public void setPname(String name){
 			this.name = name;
 		}
-		public void setItemPrice(double price){
-			this.itemPrice = price;
-			setCost();
-		}
+		
 		private void setCost(){
-			cost = (itemPrice * quant) * (1 - discount);
+			cost = (price * quant) * (1 - discount);
 		}
 		public double getCost(){
 			return cost;
@@ -127,6 +122,7 @@ body {
 		}
 		public void setPrice(double price) {
 			this.price = price;
+			setCost();
 		}
 		public int getStock() {
 			return stock;
@@ -217,7 +213,6 @@ body {
 				Items item = new Items(); // Without this you keep overwriting item and it looks like only 1 type returned... Would work in c++
 				item.setPname(rst.getString("pname"));
 				item.setPid(rst.getInt("pid"));
-				item.setPrice(rst.getDouble("price"));
 				item.setStock(rst.getInt("stock"));
 				item.setPtype(rst.getString("ptype"));
 				item.setPgender(rst.getString("pgender"));
@@ -225,6 +220,7 @@ body {
 				item.setSize(rst.getInt("size"));
 				item.setThumbId(rst.getInt("thumbID"));
 				item.setDiscount(discount);
+				item.setPrice(rst.getDouble("price"));
 				//New ArrayList entry
 				itemMap.add(item);
 
@@ -277,6 +273,8 @@ body {
 					+ item.getPgender() + "</td></tr>");
 			out.print("<tr><td><b>&nbsp;Regularly Priced:</b></td><td>"
 					+ money.format(item.getPrice()) + "</td></tr>");
+			out.println("<tr><td><font size=\"4\"color=\"red\"><b>&nbsp;Get it for:</b></td><td>"
+					+"<font size=\"4\"color=\"red\">"+ money.format(item.getPrice()-(item.getPrice()*item.getDiscount())) + "</font></td></tr>");
 			//description
 			out.print("<tr><td><b>&nbsp;Description:</b></td><td><p>"
 					+ item.getPdescription() + "</p></td></tr>");

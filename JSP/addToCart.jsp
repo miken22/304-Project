@@ -190,16 +190,33 @@ function breakout_of_frame()
 				out.println("<script>window.alert('There are not enough items left in inventory to satisfy your request.')</script>");
 				response.sendRedirect(request.getHeader("referer"));
 			}
-		
-			sql = "INSERT INTO Basket VALUES(?,?,?,?,0,0,?,?)";
+			
+			sql = "SELECT * FROM Basket WHERE uname=? AND pid=? AND size=?";
 			ps = con.prepareStatement(sql);
 			ps.setString(1,uname);
 			ps.setInt(2,item.getPid());
-			ps.setInt(3,item.getQuantity());
-			ps.setString(4,item.getPtype());
-			ps.setDouble(5,item.getDiscount());
-			ps.setInt(6,item.getSize());
-			ps.executeUpdate();
+			ps.setInt(3,item.getSize());
+			rs = ps.executeQuery();
+			// Case where user has item in basket already:
+			if (rs.next()){
+				sql = "UPDATE Basket SET quantity=? WHERE uname=? AND pid=? AND size=?";
+				ps = con.prepareStatement(sql);
+				ps.setInt(1,rs.getInt(3) + item.getQuantity());
+				ps.setString(2,uname);
+				ps.setInt(3,item.getPid());
+				ps.setInt(4,item.getSize());
+				ps.executeUpdate();
+			} else {
+				sql = "INSERT INTO Basket VALUES(?,?,?,?,0,0,?,?)";
+				ps = con.prepareStatement(sql);
+				ps.setString(1,uname);
+				ps.setInt(2,item.getPid());
+				ps.setInt(3,item.getQuantity());
+				ps.setString(4,item.getPtype());
+				ps.setDouble(5,item.getDiscount());
+				ps.setInt(6,item.getSize());
+				ps.executeUpdate();				
+			}
 			con.close();
 			
 			response.sendRedirect("shopping_cart.jsp");

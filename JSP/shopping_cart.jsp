@@ -206,6 +206,7 @@ function breakout_of_frame()
 	<br>
 	<br>
 	<%
+		itemMap.clear();
 		// Find if user has any items in the basket already, looks for "shipped" boolean in returned query.
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -232,15 +233,17 @@ function breakout_of_frame()
 					Items item = new Items(rs.getInt(2),rs.getDouble(3),rs.getInt(4));
 					itemMap.put(rs.getInt(1),item);		
 			}
-			
+
+			out.println("<form name='cart' method='post'>");			
 			out.println("<table border=\"0\" width = \"100%\" style=\"border-collapse: collapse;\">");
-			out.println("<tr><th align=\"center\">" + " " + "</th><th align=\"center\">What You Want</th><th align=\"center\">Quantity</th><th align=\"right\">Price</th>");
+			out.println("<tr><th align=\"center\">" + "Remove" + "</th><th align=\"center\">" + " " + "</th><th align=\"center\">What You Want</th><th align=\"center\">Quantity</th><th align=\"right\">Price</th>");
 			
 
 			
 			// For each item in the basket, get associated name and default price.
 			for(Integer i : itemMap.keySet()){
 				Items item = itemMap.get(i);
+				item.setPid(i);
 				String productQuery = "SELECT pname, price, thumbID FROM Products WHERE pid=?;";
 				PreparedStatement ps = con.prepareStatement(productQuery);
 				ps.setInt(1, i);
@@ -260,23 +263,23 @@ function breakout_of_frame()
 				}
 
 				// Build table of items, first block is thumbnail, the rest is order info.
-				out.println("<tr> <td> <img src=\"");
+				out.println("<tr><td align=\"center\"><input type='checkbox' name=\"itemBox\" value='"+item.getPid()+"'</td> <td align=\"center\"><img src=\"");
 				out.println(String.format("thumbs/%02d.jpg\" >", item.getThumbId()));
 				
-				out.println("</td> <td  width=\"40%\" align=\"center\"align=\"center\">" + item.getPname() 
+				out.println("</td> <td  width=\"40%\" align=\"center\">" + item.getPname() 
 						+ "</td> <td width=\"20%\" align=\"center\">" + item.getQuantity() + "</td> <td width=\"20%\" align=\"right\"> $");
 				out.println(String.format("%.2f", item.getCost()));
-				out.println(" </td></tr>");
+				out.println("</td></tr>");
 			}
 
-			out.println("<tr style=\"border-top:2px solid black\" align=\"right\"><td colspan=\"4\"> Subtotal: $");
+			out.println("<tr style=\"border-top:2px solid black\" align=\"right\"><td colspan=\"5\"> Subtotal: $");
 			out.println(String.format("%.2f", totalCost));
 			out.println(" </td></tr>");
 			double taxes = totalCost*0.12;
-			out.println("<tr align=\"right\"><td colspan=\"4\"> Taxes: $");
+			out.println("<tr align=\"right\"><td colspan=\"5\"> Taxes: $");
 			out.println(String.format("%.2f", taxes));
 			out.println(" </td></tr>");
-			out.println("<tr align=\"right\"><td colspan=\"4\">  Subtotal: $");
+			out.println("<tr align=\"right\"><td colspan=\"5\">  Subtotal: $");
 			out.println(String.format("%.2f", totalCost+taxes));
 			out.println(" </td></tr>");
 			totalCost = 0;
@@ -287,10 +290,9 @@ function breakout_of_frame()
 		}
 
 		out.println("</table><table>");
-
-		out.println("<form method='post' >");
 		out.println("<tr align=\"center\"><td bgcolor=\"yellow\"><input class=\"checkout\" type=\"submit\" name=\"checkout\" value=\"Checkout\"></td>");
-		out.println("<td bgcolor=\"yellow\"><input class=\"clearAll\" type=\"submit\" name=\"clearAll\" value=\"Clear Cart\" onclick=\"shopping_cart.jsp;\"></td></tr>");
+		out.println("<td bgcolor=\"yellow\"><input class=\"remove\" type=\"submit\" name=\"remove\" value=\"Remove Selected Items\"></td>");
+		out.println("<td bgcolor=\"yellow\"><input class=\"clearAll\" type=\"submit\" name=\"clearAll\" value=\"Clear Cart\"></td></tr>");
 			
 		out.println("</form><hr><br>");
 		out.println("</table>");
@@ -298,92 +300,119 @@ function breakout_of_frame()
 		<!-- Handle checkout features -->
 	<%
 		String checkOut = request.getParameter("checkout");
-		String clearAll = request.getParameter("clearAll");
-		// Listens for click in checkout form.
-		if("Checkout".equals(checkOut)){
-			// Form button clicked
-			if(itemMap.size() == 0){
-				out.println("Nothing in your cart!");
-				return;
-			} else {
-				// Reconnect to DB
-				try {
-					Class.forName("com.mysql.jdbc.Driver");
-				} catch (java.lang.ClassNotFoundException e) {
-					System.err.println("ClassNotFoundException: " + e);
-				}
-				con = null;
-				try {
-					String url = "jdbc:mysql://cosc304.ok.ubc.ca/db_mnowicki";
-					String uid = "mnowicki";
-					String pw = "92384072";
-					con = DriverManager.getConnection(url, uid, pw);
-					
-					// Cycle through cart
-					for (Integer i : itemMap.keySet()){
-						Items item = itemMap.get(i);
-						// Mark order as shipped, part of assumption that payment by 3rd party and what now..
-						String updateBasket = "UPDATE Basket SET shipped=TRUE WHERE(uname=? AND pid=?)";
-						PreparedStatement ps = con.prepareStatement(updateBasket);
-						ps.setString(1,uname);
-						ps.setInt(2,i);
-						ps.executeUpdate();
-						
-						// Now inventory
-						int quantity = item.getQuantity();
-						int size = item.getSize();
-						String updateProducts = "UPDATE Products SET stock = stock - ? WHERE pid=? and size=?";
-						ps = con.prepareStatement(updateProducts);
-						ps.setInt(1, quantity);
-						ps.setInt(2, i);
-						ps.setInt(3, size);
-						ps.executeUpdate();
-						
-						// User History
-						String updateHistory = "INSERT INTO UserHistory VALUES(uname = ?, pid = ?)";
-						ps = con.prepareStatement(updateHistory);
-						ps.setString(1,uname);
-						ps.setInt(2,i);
-						ps.executeUpdate();
-					}
-					totalCost = 0;
-					con.close();
-					session.invalidate();
-					response.sendRedirect("authorize.html");
-				} catch (Exception e){
-					e.printStackTrace();
-				}
+			String clearAll = request.getParameter("clearAll");
+			String remove = request.getParameter("remove");
+			// Listens for click in checkout form.
+			if("Checkout".equals(checkOut)){
+		// Form button clicked
+		if(itemMap.size() == 0){
+			out.println("Nothing in your cart!");
+			return;
+		} else {
+			// Reconnect to DB
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+			} catch (java.lang.ClassNotFoundException e) {
+				System.err.println("ClassNotFoundException: " + e);
 			}
-		} else if("Clear Cart".equals(clearAll)) {
-			if(itemMap.size() == 0){
-				out.println("Nothing in your cart!");
-				return;
-			} else {
-				// Reconnect to DB
-				try {
-					Class.forName("com.mysql.jdbc.Driver");
-				} catch (java.lang.ClassNotFoundException e) {
-					System.err.println("ClassNotFoundException: " + e);
-				}
-				try {
-					String url = "jdbc:mysql://cosc304.ok.ubc.ca/db_mnowicki";
-					String uid = "mnowicki";
-					String pw = "92384072";
-					Connection con1 = DriverManager.getConnection(url, uid, pw);
-					
-					String updateBasket = "DELETE FROM Basket WHERE uname=? AND shipped=FALSE";
-					PreparedStatement ps = con1.prepareStatement(updateBasket);
+			con = null;
+			try {
+				String url = "jdbc:mysql://cosc304.ok.ubc.ca/db_mnowicki";
+				String uid = "mnowicki";
+				String pw = "92384072";
+				con = DriverManager.getConnection(url, uid, pw);
+				
+				// Cycle through cart
+				for (Integer i : itemMap.keySet()){
+					Items item = itemMap.get(i);
+					// Mark order as shipped, part of assumption that payment by 3rd party and what now..
+					String updateBasket = "UPDATE Basket SET shipped=TRUE WHERE(uname=? AND pid=?)";
+					PreparedStatement ps = con.prepareStatement(updateBasket);
 					ps.setString(1,uname);
+					ps.setInt(2,i);
 					ps.executeUpdate();
-					itemMap.clear();
-					response.sendRedirect("shopping_cart.jsp");
-					con1.close();
-				} catch (Exception e){
-					e.printStackTrace();
+					
+					// Now inventory
+					int quantity = item.getQuantity();
+					int size = item.getSize();
+					String updateProducts = "UPDATE Products SET stock = stock - ? WHERE pid=? and size=?";
+					ps = con.prepareStatement(updateProducts);
+					ps.setInt(1, quantity);
+					ps.setInt(2, i);
+					ps.setInt(3, size);
+					ps.executeUpdate();
+					
+					// User History
+					String updateHistory = "INSERT INTO UserHistory VALUES(uname = ?, pid = ?)";
+					ps = con.prepareStatement(updateHistory);
+					ps.setString(1,uname);
+					ps.setInt(2,i);
+					ps.executeUpdate();
 				}
+				totalCost = 0;
+				con.close();
+				session.invalidate();
+				response.sendRedirect("authorize.html");
+			} catch (Exception e){
+				e.printStackTrace();
 			}
 		}
-		
+			} else if("Clear Cart".equals(clearAll)) {
+		if(itemMap.size() == 0){
+			out.println("Nothing in your cart!");
+			return;
+		} else {
+			// Reconnect to DB
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+			} catch (java.lang.ClassNotFoundException e) {
+				System.err.println("ClassNotFoundException: " + e);
+			}
+			try {
+				String url = "jdbc:mysql://cosc304.ok.ubc.ca/db_mnowicki";
+				String uid = "mnowicki";
+				String pw = "92384072";
+				Connection con1 = DriverManager.getConnection(url, uid, pw);
+				
+				String updateBasket = "DELETE FROM Basket WHERE uname=? AND shipped=FALSE";
+				PreparedStatement ps = con1.prepareStatement(updateBasket);
+				ps.setString(1,uname);
+				ps.executeUpdate();
+				itemMap.clear();
+				con1.close();
+				response.sendRedirect("shopping_cart.jsp");
+			} catch (Exception e){
+				e.printStackTrace();
+			}
+		}
+			} else if("Remove Selected Items".equals(remove)) {
+		// Cycle through items in cart, checking if the form parts have been selected, and remove from the DB as needed
+		// Reconnect to DB
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+			} catch (java.lang.ClassNotFoundException e) {
+				System.err.println("ClassNotFoundException: " + e);
+			}
+			try {
+				String url = "jdbc:mysql://cosc304.ok.ubc.ca/db_mnowicki";
+				String uid = "mnowicki";
+				String pw = "92384072";
+				Connection con1 = DriverManager.getConnection(url, uid, pw);
+				String item[] = request.getParameterValues("itemBox");
+				for(int i = 0; i < item.length; i++){
+					String updateBasket = "DELETE FROM Basket WHERE uname=? AND shipped=FALSE AND pid=?";
+					PreparedStatement ps = con1.prepareStatement(updateBasket);
+					ps.setString(1,uname);
+					ps.setInt(2,Integer.valueOf(item[i]));
+					ps.executeUpdate();
+				}
+				itemMap.clear();
+				con1.close();
+				response.sendRedirect("shopping_cart.jsp");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	%>
 </body>
 </html>
