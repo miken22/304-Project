@@ -2,7 +2,6 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.sql.*"%>
-<%@ page import="com.cosc304.*"%>
 <%@ page import="java.text.DecimalFormat"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -13,7 +12,6 @@
 body {
 	background-attachment: "fixed";
 }
-
 #greet div {
 	position: relative;
 	width: 100%;
@@ -44,6 +42,127 @@ body {
 </style>
 </head>
 <body>
+
+	<%!
+	public class Items {
+		private String name = "";
+		private int quant = 0;
+		private int size = 0;
+		private int pid = 0;
+		private double price = 0;
+		private int stock = 0;
+		private String ptype="";
+		private String pgender="";
+		private String pdescription="";
+		private int tid = 0;
+		private double discount = 0;
+		private double itemPrice = 0;
+		private double cost = 0; // this is quant * price - discount;
+		
+		public Items(){}
+		
+		public Items(int quantity, double discount, int size){
+			this.quant = quantity;
+			this.discount = discount;
+			this.size = size;
+		}
+		
+		public Items(String pname, Integer pid, double price, int stock, String ptype, String pgender, String pdescription, int size, int thumbId, double discount) {
+			setPname(pname);
+			setPid(pid);
+			setPrice(price);
+			setStock(stock);
+			setPtype(ptype);
+			setPgender(pgender);
+			setPdescription(pdescription);
+			setSize(size);
+			setThumbId(thumbId);
+			setDiscount(0);
+			//!@# left out picID and photoID for now.
+			
+			
+			//!@#do a check for pid=THE DEAL (currrently)
+			//discount=0 for itemPage
+		}
+		public double getDiscount(){
+			return discount;
+		}
+		
+		public void setPname(String name){
+			this.name = name;
+		}
+		public void setItemPrice(double price){
+			this.itemPrice = price;
+			setCost();
+		}
+		private void setCost(){
+			cost = (itemPrice * quant) * (1 - discount);
+		}
+		public double getCost(){
+			return cost;
+		}	
+		public int getQuantity(){
+			return quant;
+		}
+		public int getSize(){
+			return size;
+		}
+		public void setThumbId(int id){
+			this.tid = id;
+		}
+		public int getThumbId(){
+			return tid;
+		}
+		public String getPname() {
+			return name;
+		}
+		public Integer getPid() {
+			return pid;
+		}
+		public void setPid(Integer pid) {
+			this.pid = pid;
+		}
+		public double getPrice() {
+			return price;
+		}
+		public void setPrice(double price) {
+			this.price = price;
+		}
+		public int getStock() {
+			return stock;
+		}
+		public void setStock(int stock) {
+			this.stock = stock;
+		}
+		public String getPtype() {
+			return ptype;
+		}
+		public void setPtype(String ptype) {
+			this.ptype = ptype;
+		}
+		public String getPgender() {
+			return pgender;
+		}
+		public void setPgender(String pgender) {
+			this.pgender = pgender;
+		}
+		public String getPdescription(){
+			return pdescription;
+		}
+		public void setPdescription(String desc){
+			pdescription=desc;
+		}
+		public void setSize(int size) {
+			this.size = size;
+		}
+		public void setDiscount(double discount){
+			this.discount = discount;
+		}
+		public void setQuantity(int q){
+			this.quant = q;
+		}
+	}
+	%>
 
 	<%@ include file="general_banner.html"%>
 
@@ -81,11 +200,12 @@ body {
 			//Connect	
 			con = DriverManager.getConnection(url, uid, pw);
 
-			String sql = "SELECT pid FROM Deals WHERE saleNum = (SELECT count(saleNum) FROM Deals)";
+			String sql = "SELECT pid,discount FROM Deals WHERE saleNum = (SELECT count(saleNum) FROM Deals)";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ResultSet rst = ps.executeQuery();
 			rst.next();
 			pid = rst.getInt(1);
+			double discount = rst.getDouble(2);
 
 			//SQL Statement
 			sql = "SELECT * FROM Products WHERE pid=?;";
@@ -104,7 +224,7 @@ body {
 				item.setPdescription(rst.getString("pdescription"));
 				item.setSize(rst.getInt("size"));
 				item.setThumbId(rst.getInt("thumbID"));
-
+				item.setDiscount(discount);
 				//New ArrayList entry
 				itemMap.add(item);
 
@@ -155,7 +275,7 @@ body {
 			out.print("<tr><td colspan='3' bgcolor='grey'><font size=\"4\"color=\"white\"><b><table cellspacing=20>");
 			out.print("<tr><td><b>&nbsp;Sex:</b></td><td>"
 					+ item.getPgender() + "</td></tr>");
-			out.print("<tr><td><b>&nbsp;Price:</b></td><td>"
+			out.print("<tr><td><b>&nbsp;Regularly Priced:</b></td><td>"
 					+ money.format(item.getPrice()) + "</td></tr>");
 			//description
 			out.print("<tr><td><b>&nbsp;Description:</b></td><td><p>"
@@ -215,8 +335,12 @@ body {
 				}
 				toAdd.setQuantity(1);
 				itemMap.clear();
-				session.setAttribute("item", toAdd);
+				//session.setAttribute("item", toAdd);
 				session.setAttribute("pid", toAdd.getPid());
+				session.setAttribute("size", toAdd.getSize());
+				session.setAttribute("quant", item.getQuantity());
+				session.setAttribute("type", item.getPtype());
+				session.setAttribute("discount", item.getDiscount());
 				response.sendRedirect("addToCart.jsp");
 			}
 
@@ -225,7 +349,7 @@ body {
 		}
 	%>
 
-	<%@ include file="timer.html"%>
+	
 
 </body>
 </html>
