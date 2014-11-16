@@ -27,6 +27,9 @@ body {
 .sizeList{
 	width:150px;
 }
+.quant{
+	width:50px;
+}
 #prodPic img{
 	height:70%;
 	width:35%;
@@ -281,22 +284,22 @@ body {
 			
 			out.print("</b></font><tr>");
 			out.print("<div id=\"prodlist\" float=\"right\">");
-			out.println("<form method=\"get\">");
-			out.println("<td><select name=\"sizeList\" class='sizeList'>");
+			out.println("<form method=\"get\" name='addItem'>");
+			out.println("<td colspan='2'><select name=\"sizeList\" class='sizeList'>");
 			for (int i = 0; i < itemMap.size(); i++) {
-				char size = 'M'; // Sizes
+				String size = "Medium"; // Sizes
 				switch (itemMap.get(i).getSize()) {
 				case (1):
-					size = 'S';
+					size = "Small";
 					break;
 				case (2):
-					size = 'M';
+					size = "Medium";
 					break;
 				case (3):
-					size = 'L';
+					size = "Large";
 					break;
 				case (4):
-					size = 'X';
+					size = "Extra-Large";
 					break;
 				}
 				// Print dropdown menu
@@ -304,7 +307,10 @@ body {
 						+ "\">" + size + " - Stock: "
 						+ itemMap.get(i).getStock() + "</option>");
 			}
-			out.println("</select></td><td bgcolor='yellow' align='center'>");
+			out.println("</select>");
+			out.println("Amount:<input type='text' class='quant' name='quant' required>");
+			out.println("</td>");
+			out.println("<td bgcolor='yellow' align='center'>");
 			out.println("<input type=\"hidden\" name=\"pid\" value=\""
 					+ item.getPid() + "\" >");
 			out.println("<input type=\"submit\" name=\"addToCart\" class=\"addToCart\" value=\"Add to Cart\">");
@@ -321,9 +327,7 @@ body {
 			// EVENT LISTENER
 			String addItem = request.getParameter("addToCart");
 			if ("Add to Cart".equals(addItem)) {
-				int size = Integer
-						.valueOf(request.getParameter("sizeList"));
-
+				int size = Integer.valueOf(request.getParameter("sizeList"));
 				Items toAdd = null;
 				for (int i = 0; i < itemMap.size(); i++) {
 					if (itemMap.get(i).getSize() == size) {
@@ -331,7 +335,7 @@ body {
 						break;
 					}
 				}
-				toAdd.setQuantity(1);
+				toAdd.setQuantity(Integer.valueOf(request.getParameter("quant")));
 				itemMap.clear();
 				//session.setAttribute("item", toAdd);
 				session.setAttribute("pid", toAdd.getPid());

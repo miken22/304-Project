@@ -268,19 +268,19 @@ if (itemMap.size() > 0) {
 			out.println("<form method=\"get\">");
 			out.println("<td><select name=\"sizeList\" class='sizeList'>");
 			for (int i = 0; i < itemMap.size(); i++) {
-				char size = 'M'; // Sizes
+				String size = "Medium"; // Sizes
 				switch (itemMap.get(i).getSize()) {
 				case (1):
-					size = 'S';
+					size = "Small";
 					break;
 				case (2):
-					size = 'M';
+					size = "Medium";
 					break;
 				case (3):
-					size = 'L';
+					size = "Large";
 					break;
 				case (4):
-					size = 'X';
+					size = "Extra-Large";
 					break;
 				}
 				// Print dropdown menu
@@ -288,7 +288,10 @@ if (itemMap.size() > 0) {
 						+ "\">" + size + " - Stock: "
 						+ itemMap.get(i).getStock() + "</option>");
 			}
-			out.println("</select></td><td bgcolor='yellow' align='center'>");
+			out.println("</select>");
+			out.println("Amount:<input type='text' class='quant' name='quant' required>");
+			out.println("</td>");
+			out.println("<td bgcolor='yellow' align='center'>");
 			out.println("<input type=\"hidden\" name=\"pid\" value=\""
 					+ item.getPid() + "\" >");
 			out.println("<input type=\"submit\" name=\"addToCart\" class=\"addToCart\" value=\"Add to Cart\">");
@@ -313,7 +316,7 @@ if("Add to Cart".equals(addItem)){
 			break;
 		}
 	}
-	toAdd.setQuantity(1);
+	toAdd.setQuantity(Integer.valueOf(request.getParameter("quant")));
 	itemMap.clear();
 	session.setAttribute("item", toAdd);
 	session.setAttribute("pid", toAdd.getPid());
