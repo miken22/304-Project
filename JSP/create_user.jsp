@@ -70,8 +70,14 @@ function breakout_of_frame()
 		<tr><td>City</td><td><input type="text" required name="city"></td></tr>
 		<tr><td>Province</td><td><input type="text" required name="prov"></td></tr>
 		<tr><td>Postal Code</td><td><input type="text" required name="zip"></td></tr>
-		<tr></tr>
-		<tr align="center"><td><input type="submit" value="Register!"></td><td><input type="reset" value="Start Over"></td></tr>
+		<tr><td>Shirts</td><td><input type="checkbox" name="type" value="tshirt"></td><td>Shorts</td><td><input type="checkbox" name="type" value="shorts"></td></tr>
+		<tr><td>Sweaters</td><td><input type="checkbox" name="type" value="sweaters"></td><td>Shoes</td><td><input type="checkbox" name="type" value="shoes"></td></tr>
+		<tr><td>Snowboards</td><td><input type="checkbox" name="type" value="snowboard"></td><td>Jackets</td><td><input type="checkbox" name="type" value="jacket"></td></tr>
+		<tr><td>Snowpants</td><td><input type="checkbox" name="type" value="snowpant"></td><td>Hats</td><td><input type="checkbox" name="type" value="hat"></td></tr>
+		<tr><td>Belts</td><td><input type="checkbox" name="type" value="belt"></td><td>Pants</td><td><input type="checkbox" name="type" value="pant"></td></tr>
+		<tr><td>Skateboards</td><td><input type="checkbox" name="type" value="skate"></td><td></td></tr>
+		
+		<tr align="center"><td><input type="submit" value="Register!"></td><td><input type="reset" value="Start Over"></td></tr>	
 		</table>	
 	</form>
 </body>

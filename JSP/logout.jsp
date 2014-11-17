@@ -9,7 +9,7 @@
 <body>
 <%
 	session.invalidate();
-	response.sendRedirect("login.jsp");
+	response.sendRedirect("main_page.jsp");
 %>
 </body>
 </html>

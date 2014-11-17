@@ -202,6 +202,7 @@ body {
 	}%>
 
 	<%@ include file="general_banner.html"%>
+	<%@ include file="recommendations.jsp" %>
 
 	<!-- Page Variables -->
 	<%!private String fname = "";
