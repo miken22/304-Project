@@ -20,8 +20,8 @@
 		table tr{
 		}
 		table img{
-			max-height:100%;
-			max-width: 100%;
+			width:234px;
+			height:348px;
 			display: block; /*nothing sits beside it*/
 			vertical-align: top;
 			margin: 0px 10px 5px 10px; /*note: no commas*/
@@ -33,8 +33,8 @@
 			margin: auto;
 		}
 		input[type=image] {
-			width: 75%;
-			height: 65%;
+			width:170px;
+			height:300px;
 			border: 1px solid #000000;
 		}
 		
@@ -75,15 +75,14 @@
 			for (int i = 0; i < 4; i++){
 				out.println("<td> <div class=\"productInfo\"><form method=\"get\" action=\"itemPage.jsp\">" +
 								"<input type=\"hidden\" name=\"pid\" value=\""+rs.getInt(1) + "\">");
-				out.println("<input	type=\"image\" src=\"" + rs.getString(2) + "\" width:75% height:65%;>");
+				out.println("<input	type=\"image\" src=\"" + rs.getString(2) + "\">");
 				out.println("</form></div></td>");
 				if (!rs.next()){
 					break;
 				}
 			}
 			out.println("</tr>");
-		}
-		
+		}	
 		
 		con.close();
 		

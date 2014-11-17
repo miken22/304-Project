@@ -15,6 +15,10 @@ body {
 	background-attachment: "fixed";
 }
 
+/*
+*/
+
+
 #greet div {
 	position: relative;
 	width: 100%;
@@ -27,15 +31,12 @@ body {
 #product div {
 	float: right;
 }
-
 .sizeList {
 	width: 150px;
 }
-
 .quant {
 	width: 50px;
 }
-
 #prodPic img {
 	height: 70%;
 	width: 35%;
