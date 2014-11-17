@@ -65,6 +65,7 @@ function breakout_of_frame()
 		ResultSet rs = ps.executeQuery();
 		rs.next();
 		// Get user info:
+		String pass = rs.getString(2);
 		String fname = rs.getString(3);
 		String lname = rs.getString(4);
 		String streetAdd = rs.getString(6);
@@ -72,11 +73,14 @@ function breakout_of_frame()
 		String prov = rs.getString(8);
 		String zip = rs.getString(9);
 		
-		out.println("<font color=\"white\"><h1 align=\"center\">Personal Details:</h1></font>");;
-		out.println("<font size=\"5\"color=\"white\"><b>");
+		out.println("<font size=\"5\" color=\"white\"><h1 align=\"center\">Account Details:</h1>");
 		out.println("<form method=\"post\" action=\"changeSettings.jsp\">");
 		out.println("<table align=\"center\" bgcolor=\"grey\" border=\"0\" cellspacing=20>");
 		out.println("<tr><td>Username:</td><td><input type=\"text\" readonly=\"readonly\" value=\""+uname+"\"/></td></tr>");
+		out.println("<tr><td>Password:</td><td><input type=\"password\" name=\"pass\" required value=\""+pass+"\"/></td></tr>");
+		out.println("</table><br>");
+		out.println("<font color=\"white\"><h1 align=\"center\">Personal Details:</h1></font>");
+		out.println("<table align=\"center\" bgcolor=\"grey\" border=\"0\" cellspacing=20>");
 		out.println("<tr><td>First Name:</td><td><input type=\"text\" name=\"fname\" required value=\""+fname+"\"></td></tr>");
 		out.println("<tr><td>Last Name:</td><td><input type=\"text\" name=\"lname\" required value=\""+lname+"\"></td></tr>");
 		out.println("<tr><td>Street Address:</td><td><input type=\"text\" name=\"address\" required value=\""+streetAdd+"\"></td></tr>");

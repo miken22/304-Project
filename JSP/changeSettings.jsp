@@ -13,6 +13,7 @@
 	session = request.getSession();
 
 	String uname = "";
+	String password = "";
 	String fname = "";
 	String lname = "";
 	String street = "";
@@ -25,7 +26,8 @@
 	} catch (NullPointerException e){
 		e.printStackTrace();
 	}
-
+	
+	password = request.getParameter("pass");
 	fname = request.getParameter("fname");
 	lname = request.getParameter("lname");
 	street = request.getParameter("address");
@@ -39,6 +41,13 @@
 	if(zip.length() != 6){
 		response.sendRedirect("user_account.jsp");
 	}
+	if (password.length() < 5){
+		String message = "Password must be at least 5 characters long.";
+		session.setAttribute("msg",message);
+		response.sendRedirect("create_user.jsp");
+		return;
+	}
+	
 	
 	try {
 		Class.forName("com.mysql.jdbc.Driver");
@@ -52,15 +61,16 @@
 		String pw = "92384072";
 		con = DriverManager.getConnection(url, uid, pw);
 		
-		String sql = "UPDATE Users SET fname=?, lname=?, street=?, city=?, prov=?, postalcode=? WHERE uname=?";
+		String sql = "UPDATE Users SET pword=?, fname=?, lname=?, street=?, city=?, prov=?, postalcode=? WHERE uname=?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1,fname);
-		ps.setString(2,lname);
-		ps.setString(3,street);
-		ps.setString(4,city);
-		ps.setString(5,prov);
-		ps.setString(6,zip);
-		ps.setString(7,uname);		
+		ps.setString(1,password);
+		ps.setString(2,fname);
+		ps.setString(3,lname);
+		ps.setString(4,street);
+		ps.setString(5,city);
+		ps.setString(6,prov);
+		ps.setString(7,zip);
+		ps.setString(8,uname);		
 		ps.executeUpdate();
 		con.close();
 		response.sendRedirect("user_account.jsp");
