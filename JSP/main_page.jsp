@@ -317,12 +317,12 @@ function breakout_of_frame()
 			}
 			out.println("</select>");
 			out.println("Amount:<input type='text' class='quant' name='quant' required>");
-			out.println("</td>");
-			out.println("<td bgcolor='yellow' align='center'>");
+			out.println("</td></tr>");
+			out.println("<tr><td bgcolor='yellow' align='center'>");
 			out.println("<input type=\"hidden\" name=\"pid\" value=\""
 					+ item.getPid() + "\" >");
 			out.println("<input type=\"submit\" name=\"addToCart\" class=\"addToCart\" value=\"Add to Cart\">");
-			out.println("</td></form>");
+			out.println("</td></tr></form>");
 
 			// End nested table
 			out.print("</table></td></tr>");

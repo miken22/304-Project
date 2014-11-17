@@ -53,15 +53,15 @@ function breakout_of_frame()
 	<h1 align="center">Welcome to <b><i>The Grid</i></b></h1>
 	<%
 		session = request.getSession();
+		String src = request.getHeader("Referer");
 		Boolean valid = (Boolean)session.getAttribute("valid");
+		session.setAttribute("src", src);
 		session.setAttribute("valid", valid);
-		session.setAttribute("src", request.getHeader("referer"));
 		if (valid != null){
 			if(!valid){
 				out.println("<p align=\"center\">" + session.getAttribute("msg").toString() + "</p>");
 			}
 		}
-		
 	%>
 
 	<form name="login" method="post" action="authenticate.jsp">

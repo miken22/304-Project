@@ -10,12 +10,11 @@
 <body>
 	<%
 		session = request.getSession();
-		
+		String src = request.getHeader("Referer");
+		session.setAttribute("src", src);
 		Boolean valid = (Boolean)session.getAttribute("valid");
 		
 		if(valid == null){
-			//String message = "You must be logged in to access this page";
-			//session.setAttribute("msg", message);
 			response.sendRedirect("login.jsp");
 		} else {
 			if(!valid){

@@ -216,6 +216,7 @@ function breakout_of_frame()
 				ps.setInt(6,item.getSize());
 				ps.executeUpdate();				
 			}
+			ps.close();
 			con.close();
 			
 			response.sendRedirect("shopping_cart.jsp");

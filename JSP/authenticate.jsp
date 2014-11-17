@@ -9,10 +9,11 @@
 </head>
 <body>
 	<%
+		session = request.getSession();
 		String userName = request.getParameter("lgnuser");
 		String password = request.getParameter("lgnpswrd");
-		String src_page = request.getParameter("src");
-
+		String src_page = (String)request.getAttribute("src");
+		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (java.lang.ClassNotFoundException e) {
@@ -34,7 +35,6 @@
 				result = stmt.executeQuery(userQuery);
 				if(result.next()){
 					String name = result.getString(1);
-					out.println(name);
 					session.setAttribute("fname", name);
 					session.setAttribute("lgnuser",userName);
 				}

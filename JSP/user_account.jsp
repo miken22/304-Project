@@ -21,6 +21,12 @@ input[type=button] {
 	z-index: -1;
 	width: 100%;
 }
+table{
+	border-radius:10px;
+}
+td{
+	border-radius:10px;
+}
 </style>
 
 </head>
