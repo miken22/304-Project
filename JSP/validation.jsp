@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Validating user..</title>
 </head>
-<body onLoad="breakout_of_frame()">
+<body>
 	<%
 		session = request.getSession();
 		

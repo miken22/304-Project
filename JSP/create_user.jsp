@@ -36,7 +36,15 @@
 	}
 </style>
 </head>
-<body>
+<script>
+function breakout_of_frame()
+{
+  if (top.location != location) {
+    top.location.href = document.location.href ;
+  }
+}
+</script>
+<body onLoad="breakout_of_frame()">
 	
 	<%@ include file="general_banner.html" %>
 	

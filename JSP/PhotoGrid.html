@@ -23,7 +23,14 @@
 			}
 	</script>-->
 </head>
-
+<script>
+function breakout_of_frame()
+{
+  if (top.location != location) {
+    top.location.href = document.location.href ;
+  }
+}
+</script>
 <style>
 html, body {
 	background-image:
@@ -81,17 +88,28 @@ input[type=submit] {
 
 
 <!-- Photo Grid -->
-<body>
+<body onLoad="breakout_of_frame()">
 
 	<div>
-		<div>
+		<div>	
 			<div>
 				<div id="banner">
 					<h1><a href="main_page.jsp">The Grid</a></h1>
-					<hr style="padding: 0px; margin: 0px;">
+					<hr style="padding:0px; margin:0px;">
 				</div>
 			</div>
 			<div id="menus">
+				<div>
+					<form action="logout.jsp">
+						<input type="submit" value="Logout">
+					</form>
+				</div>
+				<div>
+					<form action="user_account.jsp">
+						<input type="submit" value="Your Settings">
+					</form>
+				</div>
+				
 				<div>
 					<form action="shopping_cart.jsp">
 						<input type="submit" value="Cart">
@@ -119,13 +137,3 @@ input[type=submit] {
 
 </body>
 </html>
-
-
-<!--
-	Images:
-	
-	http://www.yourmomhatesthis.com/images/Vans-Shoes-001a4.jpg 
-	http://skately.com/img/library/shoes/large/vans-shoes-chukka-low.jpg
-	https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRqJL_BlKl4XTsEjJEFPyxfZmDKRfZbsclhgsvw3CzD9-Dqzio3SQ
-http://www.hdwallpapersos.com/wp-content/uploads/2014/07/cool-design-desktop-hd-wallpapers.jpg
-	-->
