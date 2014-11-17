@@ -85,6 +85,8 @@
 				}
 				session.setAttribute("allowed", Boolean.valueOf(allowable));
 				con.close();
+				session.setAttribute("lgnuser", userName);
+				session.setAttribute("lgnpswrd", password);
 				response.sendRedirect("login.jsp");
 				
 			} catch (SQLException e){
