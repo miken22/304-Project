@@ -25,7 +25,9 @@ input[type=submit] {
 	height:70%;
 	width:35%;
 }
-
+.quant {
+	width: 50px;
+}
 td{
     border-radius: 5px;
 }
@@ -266,7 +268,7 @@ if (itemMap.size() > 0) {
 			out.print("</b></font><tr>");
 			out.print("<div id=\"prodlist\" float=\"right\">");
 			out.println("<form method=\"get\">");
-			out.println("<td><select name=\"sizeList\" class='sizeList'>");
+			out.println("<td colspan='2'><select name=\"sizeList\" class='sizeList'>");
 			for (int i = 0; i < itemMap.size(); i++) {
 				String size = "Medium"; // Sizes
 				switch (itemMap.get(i).getSize()) {
@@ -288,8 +290,8 @@ if (itemMap.size() > 0) {
 						+ "\">" + size + " - Stock: "
 						+ itemMap.get(i).getStock() + "</option>");
 			}
-			out.println("</select>");
-			out.println("Amount:<input type='text' class='quant' name='quant' required>");
+			out.println("</select></td></tr>");
+			out.println("<tr><td colspan='2'>Amount:<input type='text' class='quant' name='quant' required>");
 			out.println("</td></tr>");
 			out.println("<tr><td bgcolor='yellow' align='center'>");
 			out.println("<input type=\"hidden\" name=\"pid\" value=\""

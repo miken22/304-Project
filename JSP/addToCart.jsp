@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>addint to cart</title>
 </head>
 
 <script>
@@ -151,6 +151,7 @@ function breakout_of_frame()
 		session = request.getSession();
 		try{
 			uname = session.getAttribute("lgnuser").toString();
+			out.println(uname);
 		} catch (NullPointerException e){
 			session.setAttribute("msg", "You must be logged in to do this.");
 			//response.sendRedirect("login.jsp");
@@ -190,7 +191,7 @@ function breakout_of_frame()
 				response.sendRedirect(request.getHeader("referer"));
 			}
 			
-			sql = "SELECT * FROM Basket WHERE uname=? AND pid=? AND size=?";
+			sql = "SELECT * FROM Basket WHERE uname=? AND pid=? AND size=? AND shipped=0";
 			ps = con.prepareStatement(sql);
 			ps.setString(1,uname);
 			ps.setInt(2,item.getPid());

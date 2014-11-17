@@ -61,7 +61,7 @@ body {
 </script>
 <body onLoad="breakout_of_frame()">
 
-	<%!public class Items {
+	<%! public class Items {
 		private String name = "";
 		private int quant = 0;
 		private int size = 0;
@@ -354,8 +354,8 @@ body {
 						+ "\">" + size + " - Stock: "
 						+ itemMap.get(i).getStock() + "</option>");
 			}
-			out.println("</select>");
-			out.println("Amount:<input type='text' class='quant' name='quant' required>");
+			out.println("</select></td></tr>");
+			out.println("<tr><td colspan='2'>Amount:<input type='text' class='quant' name='quant' required>");
 			out.println("</td></tr>");
 			out.println("<tr><td bgcolor='yellow' align='center'>");
 			out.println("<input type=\"hidden\" name=\"pid\" value=\""
@@ -400,6 +400,7 @@ body {
 						.getParameter("quant")));
 				itemMap.clear();
 				//session.setAttribute("item", toAdd);
+				//session.setAttribute("",);
 				session.setAttribute("pid", toAdd.getPid());
 				session.setAttribute("size", toAdd.getSize());
 				session.setAttribute("quant", item.getQuantity());
