@@ -5,6 +5,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login</title>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stytlesheet" media="screen">
+<link href="bootstrap/js/bootstrap.min.js" rel="stytlesheet" media="screen">
+
 <style>
 	body {
 		background-image: url("http://cdn4.coresites.mpora.com/whitelines_new/wp-content/uploads/2010/10/Gigi-Ruf-Snowboard-Wallpaper-1900x1200.jpg");
@@ -37,10 +41,15 @@
 	#lgn table{
 		border-color: white;
 	}
+	.center
+	{
+	margin-left:120%;
+	}
 </style>
 </head>
 
 <script>
+
 function breakout_of_frame()
 {
   if (top.location != location) {
@@ -66,15 +75,14 @@ function breakout_of_frame()
 
 	<form name="login" method="post" action="authenticate.jsp">
 		<table id="lgn" BORDERCOLOR=WHITE align="center">
-			<tr><td>Username:</td><td><input type="text" name="lgnuser" style="width:100%"></td></tr>
-			<tr><td>Password:</td><td><input type="password" name="lgnpswrd" style="width:100%"></td></tr>
-			<tr><td colspan="2"><input type="submit" value="Login" style="width:100%"></td></tr>
-			
+			<tr><td><b>Username</b>:</td><td><input type="text" class="span2" placeholder="Username" name="lgnuser" style="width:100%"></td></tr>
+			<tr><td><b>Password</b>:</td><td><input type="password" placeholder="Password" name="lgnpswrd" style="width:100%"></td></tr>
+			<tr><td><div class="center"><button class="btn btn-success pull-right" type="submit" value="Login"><b>Login</b></button></div></td></tr>	
 		</table>
 	</form>
 	<form action="create_user.jsp">
 		<table BORDERCOLOR=WHITE align="center">
-			<tr><td colspan="2" width="100%"><input type="submit" value="Create Account" ></td></tr>
+			<tr><td colspan="70" width="100%"><button class="btn btn-primary" style="button-color:blue" type="submit" value="Create Account"><b>Create Account</b></button></td></tr>
 		</table>
 	</form>  
 </body>
