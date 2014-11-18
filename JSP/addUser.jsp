@@ -11,7 +11,7 @@
 
 	<%
 	// Fifteen minute interval.
-	
+	String[] prefs = null;
 	String userName = request.getParameter("userName");
 	String password = request.getParameter("password");
 	String fname = request.getParameter("fName");
@@ -32,6 +32,7 @@
 	session.setAttribute("strt", street);
 	session.setAttribute("prov", prov);
 	session.setAttribute("zip", zip);
+	
 	Boolean allowable;
 	
 	if(zip.length() != 6){
@@ -83,11 +84,21 @@
 				} else {
 					allowable = true;
 				}
+				prefs = request.getParameterValues("type");
+				
+				for(int i = 0; i < prefs.length; i++){
+					command = "INSERT INTO UserInterest VALUES(?,?)";
+					PreparedStatement ps = con.prepareStatement(command);
+					ps.setString(1,userName);
+					ps.setString(2,prefs[i]);
+					ps.executeUpdate();
+				}
+				
 				session.setAttribute("allowed", Boolean.valueOf(allowable));
 				con.close();
 				session.setAttribute("lgnuser", userName);
 				session.setAttribute("lgnpswrd", password);
-				response.sendRedirect("login.jsp");
+				response.sendRedirect("authenticate.jsp");
 				
 			} catch (SQLException e){
 				con.close();

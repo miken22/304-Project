@@ -20,6 +20,7 @@
 	String city = "";
 	String prov = "";
 	String zip = "";
+	String[] prefs = null;
 	
 	try{
 		uname = session.getAttribute("lgnuser").toString();
@@ -34,6 +35,7 @@
 	city = request.getParameter("city");
 	prov = request.getParameter("prov").toUpperCase();
 	zip = request.getParameter("post").toUpperCase();
+	prefs = request.getParameterValues("type");
 	
 	if(prov.length() != 2){
 		response.sendRedirect("user_account.jsp");
@@ -72,6 +74,15 @@
 		ps.setString(7,zip);
 		ps.setString(8,uname);		
 		ps.executeUpdate();
+		
+		for(int i = 0; i < prefs.length; i++){
+			sql = "INSERT INTO UserInterest VALUES(?,?)";
+			ps = con.prepareCall(sql);
+			ps.setString(1,uname);
+			ps.setString(2,prefs[i]);
+			ps.executeUpdate();
+		}
+
 		con.close();
 		response.sendRedirect("user_account.jsp");
 	} catch (Exception e){

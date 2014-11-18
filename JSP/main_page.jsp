@@ -202,7 +202,11 @@ body {
 	}%>
 
 	<%@ include file="general_banner.html"%>
-	<%@ include file="recommendations.jsp" %>
+		<div id="PhotoGrid">
+		<iframe src="recommendations.jsp" align="center">
+		</iframe>
+	</div>
+	
 
 	<!-- Page Variables -->
 	<%!private String fname = "";

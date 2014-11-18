@@ -79,6 +79,11 @@ function breakout_of_frame()
 		String prov = rs.getString(8);
 		String zip = rs.getString(9);
 		
+		sql = "SELECT ptype FROM UserInterest WHERE uname=?";
+		ps = con.prepareStatement(sql);
+		ps.setString(1,uname);
+		ps.executeQuery();
+		
 		out.println("<font size=\"5\" color=\"white\"><h1 align=\"center\">Account Details:</h1>");
 		out.println("<form method=\"post\" action=\"changeSettings.jsp\">");
 		out.println("<table align=\"center\" bgcolor=\"grey\" border=\"0\" cellspacing=20>");
@@ -94,6 +99,16 @@ function breakout_of_frame()
 		out.println("<tr><td>Province:</td><td><input type=\"text\" name=\"prov\" required value=\""+prov+"\"></td></tr>");
 		out.println("<tr><td>Postal Code:</td><td><input type=\"text\" name=\"post\" required value=\""+zip+"\"></td></tr>");
 		out.println("<tr><td colspan=\"2\"> </td></tr>");
+		out.println("</table>");
+		out.println("<font color=\"white\"><h1 align=\"center\">Personal Preferences:</h1></font>");
+		out.println("<table align=\"center\" bgcolor=\"grey\" border=\"0\" cellspacing=20>");
+		out.println("<tr><td>Shirts</td><td><input type=\"checkbox\" name=\"type\" value=\"tshirt\"></td><td>Shorts</td><td><input type=\"checkbox\" name=\"type\" value=\"shorts\"></td></tr>");
+		out.println("<tr><td>Sweaters</td><td><input type=\"checkbox\" name=\"type\" value=\"sweaters\"></td><td>Shoes</td><td><input type=\"checkbox\" name=\"type\" value=\"shoes\"></td></tr>");
+		out.println("<tr><td>Snowboards</td><td><input type=\"checkbox\" name=\"type\" value=\"snowboard\"></td><td>Jackets</td><td><input type=\"checkbox\" name=\"type\" value=\"jacket\"></td></tr>");
+		out.println("<tr><td>Snowpants</td><td><input type=\"checkbox\" name=\"type\" value=\"snowpant\"></td><td>Hats</td><td><input type=\"checkbox\" name=\"type\" value=\"hat\"></td></tr>");
+		out.println("<tr><td>Belts</td><td><input type=\"checkbox\" name=\"type\" value=\"belt\"></td><td>Pants</td><td><input type=\"checkbox\" name=\"type\" value=\"pant\"></td></tr>");
+		out.println("<tr><td>Skateboards</td><td><input type=\"checkbox\" name=\"type\" value=\"skate\"></td><td></td></tr>");
+		
 		out.println("</font></b>");
 		out.println("<tr><td bgcolor='yellow'><input type=\"submit\" value=\"Change Settings\"></td>");
 		out.println("<td bgcolor='yellow'><input type=\"button\" value=\"Start Over\" onClick=\"window.location.reload()\"></td</tr>");

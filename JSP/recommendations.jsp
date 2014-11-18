@@ -33,16 +33,17 @@
 		String pw = "92384072";
 		rec_con = DriverManager.getConnection(url, uid, pw);
 		
-		String sql = "SELECT * from UserInterest WHERE uname=?";
+		String sql = "SELECT ptype from UserInterest WHERE uname=?";
 		PreparedStatement ps = rec_con.prepareStatement(sql);
 		ps.setString(1, uname);
 		ResultSet rs = ps.executeQuery();
 		int displayed = 0;	// Track number of items in banner
 		while(rs.next() && displayed < 3){
 			displayed++;
-			
-			
-			
+			sql = "SELECT DISTINCT pid FROM Products WHERE ptype=?";
+			ps = rec_con.prepareStatement(sql);
+			ps.setString(1,rs.getString(1));
+			out.print("<input type=\"hidden\" name=\"pid\" value=\""+rs.getInt(1) + "\">");
 		}
 		
 		rec_con.close();
