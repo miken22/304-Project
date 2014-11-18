@@ -51,6 +51,9 @@ body {
 		url("http://cdn4.coresites.mpora.com/whitelines_new/wp-content/uploads/2010/10/Gigi-Ruf-Snowboard-Wallpaper-1900x1200.jpg");
 	background-attachment: fixed;
 }
+#PhotoGrid div{
+	align:center;
+}
 </style>
 </head>
 <script>
@@ -202,8 +205,8 @@ body {
 	}%>
 
 	<%@ include file="general_banner.html"%>
-		<div id="PhotoGrid">
-		<iframe src="recommendations.jsp" align="center">
+	<div id="PhotoGrid">
+		<iframe src="recommendations.jsp">
 		</iframe>
 	</div>
 	

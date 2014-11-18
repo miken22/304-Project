@@ -38,14 +38,14 @@
 		ps.setString(1, uname);
 		ResultSet rs = ps.executeQuery();
 		int displayed = 0;	// Track number of items in banner
+		out.println("<table>");
 		while(rs.next() && displayed < 3){
 			displayed++;
 			sql = "SELECT DISTINCT pid FROM Products WHERE ptype=?";
 			ps = rec_con.prepareStatement(sql);
 			ps.setString(1,rs.getString(1));
-			out.print("<input type=\"hidden\" name=\"pid\" value=\""+rs.getInt(1) + "\">");
 		}
-		
+		out.println("</table>");
 		rec_con.close();
 	} catch (Exception e){
 		e.printStackTrace();
