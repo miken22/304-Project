@@ -43,11 +43,11 @@
 		
 		if (!"".equals(uname)){
 			String sql = "SELECT ptype from UserInterest WHERE uname=?";
-			PreparedStatement ps = rec_con.prepareStatement(sql);
+			PreparedStatement ps = rec_con.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE);
 			ps.setString(1, uname);
 			ResultSet rs = ps.executeQuery();
 			int displayed = 0;	// Track number of items in banner
-			out.println("<form method=\"get\" action=\"altItemPage.jsp\"><table align=\"center\" border=\"2\" style=\"width:100% height:100%\"><tr align=\"center\">");
+			out.println("<table align=\"center\" border=\"2\" style=\"width:100% height:100%\"><tr align=\"center\">");
 			while(rs.next() && displayed < 3){
 				displayed++;
 				// Find out how many products of that type are in the DB
@@ -79,16 +79,16 @@
 				next_rs = ps.executeQuery();
 				next_rs.next();
 				int thumb_id = next_rs.getInt(1); 
-				out.println("<tr><td><input type=\"hidden\" name=\"pid\" value=\"" +pid_to_display+ "\">");
+				out.println("<tr><td><form method=\"get\" action=\"altItemPage.jsp\"><input type=\"hidden\" name=\"pid\" value=\"" +pid_to_display+ "\">");
 				out.println("<input type=\"image\" name=\"recPic\" src=\"");
 				//img src
 				out.println(String.format(
-						"thumbs/%02d.jpg\"  width=150 height=150>",
+						"thumbs/%02d.jpg\"  width=150 height=150></form>",
 						thumb_id));
 				//img properties
 				out.println("</td></tr>");
 			}
-			out.println("</table></form>");
+			out.println("</table>");
 		} else {
 			// Put 3 random items in the banner
 		}
