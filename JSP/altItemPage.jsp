@@ -10,16 +10,6 @@
 <title>Check it</title>
 </head>
 <style>
-input[type=submit] {
-	border: white;
-	background: transparent;
-	color: black;
-	font-family: "serif";
-	font-size: 15pt;
-	padding: 5px 5px;
-	z-index: -1;
-	width: 30x;
-}
 #prodPic img{
 	height:70%;
 	width:35%;
@@ -35,6 +25,7 @@ body {
 		url("http://cdn4.coresites.mpora.com/whitelines_new/wp-content/uploads/2010/10/Gigi-Ruf-Snowboard-Wallpaper-1900x1200.jpg");
 	background-attachment: fixed;
 }
+
 </style>
 
 <script>
@@ -45,8 +36,8 @@ body {
 	}
 </script>
 <body onLoad="breakout_of_frame()">
-	<%@ include file="general_banner.html"%>
-<%!
+	<%@ include file="general_banner.html" %>
+	<%!
 	public class Items {
 		private String name = "";
 		private int quant = 0;
@@ -265,7 +256,7 @@ if (itemMap.size() > 0) {
 			//name of item
 			
 			//price
-			out.print("<tr><td colspan='3' bgcolor='grey'><font size=\"4\"color=\"white\"><b><table cellspacing=20>");
+			out.print("<tr><td colspan='3' bgcolor='grey'><font size=\"4\"color=\"black\"><b><table cellspacing=20>");
 			out.print("<tr><td><b>&nbsp;Sex:</b></td><td>"
 					+ item.getPgender() + "</td></tr>");
 			out.print("<tr><td><b>&nbsp;Price:</b></td><td>"
@@ -275,8 +266,8 @@ if (itemMap.size() > 0) {
 					+ item.getPdescription() + "</p></td></tr>");
 			
 			out.print("</b></font><tr>");
-			out.print("<div id=\"prodlist\" float=\"right\">");
-			out.println("<form method=\"get\">");
+			out.print("<div id=\"prodlist\" float=\"right\"><font=\"black\"");
+			out.println("<form method=\"get\"><font color=\"black\" size=\"2\">");
 			out.println("<td colspan='2'><select name=\"sizeList\" class='sizeList'>");
 			for (int i = 0; i < itemMap.size(); i++) {
 				String size = "Medium"; // Sizes
@@ -300,7 +291,7 @@ if (itemMap.size() > 0) {
 						+ itemMap.get(i).getStock() + "</option>");
 			}
 			out.println("</select></td></tr>");
-			out.println("<tr><td colspan='2'>Amount:<input type='text' class='quant' name='quant' required>");
+			out.println("<tr><td colspan='2'>Amount:<input type='text' class='quant' name='quant' required></font>");
 			out.println("</td></tr>");
 			out.println("<tr><td bgcolor='yellow' align='center'>");
 			out.println("<input type=\"hidden\" name=\"pid\" value=\""

@@ -33,13 +33,6 @@ td{
 }
 </style>
 </head>
-<script>
-	function breakout_of_frame() {
-		if (top.location != location) {
-			top.location.href = document.location.href;
-		}
-	}
-</script>
 <body>
 
 	<%!
@@ -272,7 +265,7 @@ if (itemMap.size() > 0) {
 			
 			out.print("</b></font><tr>");
 			out.print("<div id=\"prodlist\" float=\"right\">");
-			out.println("<form method=\"get\">");
+			out.println("<form method=\"get\"><font color=\"black\" size=\"2\">");
 			out.println("<td colspan='2'><select name=\"sizeList\" class='sizeList'>");
 			for (int i = 0; i < itemMap.size(); i++) {
 				String size = "Medium"; // Sizes
