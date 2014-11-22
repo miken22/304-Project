@@ -27,12 +27,16 @@ body {
 #greet p {
 	float: right;
 }
-
+#recommendation div{
+	width: 100%;
+}
 #product div {
 	float: right;
 }
 .sizeList {
-	width: 150px;
+	width: 180px;
+	color: black;
+	font-size: 12pt;
 }
 .quant {
 	width: 50px;
@@ -205,8 +209,8 @@ body {
 	}%>
 
 	<%@ include file="general_banner.html"%>
-	<div id="PhotoGrid">
-		<iframe src="recommendations.jsp">
+	<div id="recommendation">
+	<iframe src="recommendations.jsp" width=100%>
 		</iframe>
 	</div>
 	
@@ -327,7 +331,7 @@ body {
 			out.print("<tr><td colspan='3' bgcolor='grey'><font size=\"4\"color=\"white\"><b><table cellspacing=20>");
 			out.print("<tr><td><b>&nbsp;Sex:</b></td><td>"
 					+ item.getPgender() + "</td></tr>");
-			out.print("<tr><td><b>&nbsp;Regularly Priced:</b></td><td>"
+			out.print("<tr><td><b>Regularly Priced:</b></td><td>"
 					+ money.format(item.getPrice()) + "</td></tr>");
 			out.println("<tr><td><font size=\"4\"color=\"red\"><b>&nbsp;Get it for:</b></td><td>"
 					+ "<font size=\"4\"color=\"red\">"
@@ -339,7 +343,7 @@ body {
 					+ item.getPdescription() + "</p></td></tr>");
 
 			out.print("</b></font><tr>");
-			out.print("<div id=\"prodlist\" float=\"right\">");
+			out.print("<div id=\"prodlist\" float=\"right\"><font color=\"black\"");
 			out.println("<form method=\"get\" name='addItem'>");
 			out.println("<td colspan='2'><select name=\"sizeList\" class='sizeList'>");
 			for (int i = 0; i < itemMap.size(); i++) {
@@ -364,7 +368,7 @@ body {
 						+ itemMap.get(i).getStock() + "</option>");
 			}
 			out.println("</select></td></tr>");
-			out.println("<tr><td colspan='2'>Amount:<input type='text' class='quant' name='quant' required>");
+			out.println("<tr><td colspan='2'>Amount:<font color=\"black\"><input type='text' class='quant' name='quant' required></font>");
 			out.println("</td></tr>");
 			out.println("<tr><td bgcolor='yellow' align='center'>");
 			out.println("<input type=\"hidden\" name=\"pid\" value=\""

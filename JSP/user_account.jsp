@@ -21,11 +21,15 @@ input[type=button] {
 	z-index: -1;
 	width: 100%;
 }
+input[type=text]{
+	font-color: black;
+}
 table{
 	border-radius:10px;
 }
 td{
 	border-radius:10px;
+	font-color: white;
 }
 </style>
 
@@ -84,8 +88,8 @@ function breakout_of_frame()
 		ps.setString(1,uname);
 		ps.executeQuery();
 		
-		out.println("<font size=\"5\" color=\"white\"><h1 align=\"center\">Account Details:</h1>");
-		out.println("<form method=\"post\" action=\"changeSettings.jsp\">");
+		out.println("<font size=\"5\" color=\"white\"><h1 align=\"center\">Account Details:</h1></font>");
+		out.println("<form method=\"post\" action=\"changeSettings.jsp\"><font size=\"4\">");
 		out.println("<table align=\"center\" bgcolor=\"grey\" border=\"0\" cellspacing=20>");
 		out.println("<tr><td>Username:</td><td><input type=\"text\" readonly=\"readonly\" value=\""+uname+"\"/></td></tr>");
 		out.println("<tr><td>Password:</td><td><input type=\"password\" name=\"pass\" required value=\""+pass+"\"/></td></tr>");
@@ -110,7 +114,7 @@ function breakout_of_frame()
 		out.println("<tr><td>Skateboards</td><td><input type=\"checkbox\" name=\"type\" value=\"skate\"></td><td></td></tr>");
 		
 		out.println("</font></b>");
-		out.println("<tr><td bgcolor='yellow'><input type=\"submit\" value=\"Change Settings\"></td>");
+		out.println("<tr><td bgcolor='yellow'><input type=\"submit\" value=\"Change Settings\"></td><td></td>");
 		out.println("<td bgcolor='yellow'><input type=\"button\" value=\"Start Over\" onClick=\"window.location.reload()\"></td</tr>");
 		out.println("</table></form>");
 		con.close();

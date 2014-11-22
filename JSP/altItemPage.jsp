@@ -1,15 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.text.DecimalFormat" %>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Check this</title>
-
+<title>Check it</title>
+</head>
 <style>
 input[type=submit] {
 	border: white;
@@ -31,8 +30,13 @@ input[type=submit] {
 td{
     border-radius: 5px;
 }
+body {
+	background-image:
+		url("http://cdn4.coresites.mpora.com/whitelines_new/wp-content/uploads/2010/10/Gigi-Ruf-Snowboard-Wallpaper-1900x1200.jpg");
+	background-attachment: fixed;
+}
 </style>
-</head>
+
 <script>
 	function breakout_of_frame() {
 		if (top.location != location) {
@@ -40,9 +44,9 @@ td{
 		}
 	}
 </script>
-<body>
-
-	<%!
+<body onLoad="breakout_of_frame()">
+	<%@ include file="general_banner.html"%>
+<%!
 	public class Items {
 		private String name = "";
 		private int quant = 0;
@@ -350,6 +354,5 @@ if("Add to Cart".equals(addItem)){
 */
 
 %>
-
 </body>
 </html>
