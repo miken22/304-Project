@@ -20,7 +20,7 @@
 		table tr{
 		}
 		table img{
-			width:234px;
+			width:80px;
 			height:348px;
 			display: block; /*nothing sits beside it*/
 			vertical-align: top;
@@ -33,8 +33,8 @@
 			margin: auto;
 		}
 		input[type=image] {
-			width:170px;
-			height:300px;
+			width:120px;
+			height:190px;
 			border: 1px solid #000000;
 		}
 		

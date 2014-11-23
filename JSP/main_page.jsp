@@ -58,6 +58,21 @@ body {
 #PhotoGrid div{
 	align:center;
 }
+#recommendation{
+float: left;
+height: 800px;
+overflow: scroll;
+width: 25%;
+}
+
+#main{
+float: left;
+width: 50%;
+height: 80%;
+margin-left: 90px;
+margin-top: 90px;
+}
+
 </style>
 </head>
 <script>
@@ -210,11 +225,12 @@ body {
 
 	<%@ include file="general_banner.html"%>
 	<div id="recommendation">
-	<iframe src="recommendations.jsp" width=100%>
-		</iframe>
+	<h2><strong>Recommendation for Today</strong></h2>
+	<br>
+	<%@ include file= "recommendations.jsp"%>
 	</div>
 	
-
+<div id="main">
 	<!-- Page Variables -->
 	<%!private String fname = "";
 	private String uname = "";
@@ -426,7 +442,7 @@ body {
 			out.print("Error, no items in itemMap");
 		}
 	%>
-
+</div>
 
 
 

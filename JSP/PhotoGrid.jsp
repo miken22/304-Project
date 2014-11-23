@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Photo Grid</title>
 </head>
 <script>
 function breakout_of_frame()
@@ -69,20 +69,40 @@ input[type=submit] {
 }
 #PhotoGrid
 {
-margin-top: 5%;
-margin-bottom: 10% 
-padding: 5px;
-border-color: black;
-border-style: solid;
+margin-left: 90px;
+margin-top: 90px;
+padding: 3px;
+float: left;
+height: 80%;
+width: 50%;
 }
+
+#recommendation1{
+float: left;
+height: 800px;
+overflow: scroll;
+width: 20%;
+}
+
 </style>
 
 <body>
 <%@ include file="general_banner.html"%>
 <body onLoad="breakout_of_frame()">
+<div id="recommendation1">
+	<h2><strong>Recommendation for Today</strong></h2>
+	<br>
+	<%@ include file= "recommendations.jsp"%>
+	</div>
 	<div id="PhotoGrid">
-		<iframe src="Grid.jsp" align="center"
+	<h1><strong>Our Stash</strong></h1>
+	<br>
+	<%@ include file= "Grid.jsp"%>
+	
+	<!-- Scrollable Frame -->
+		<!-- <iframe src="Grid.jsp" align="center"
 			onclick="javascript:resizeIframe(this);"> </iframe>
+	 -->
 	</div>
 	
 </body>
