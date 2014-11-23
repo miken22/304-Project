@@ -69,8 +69,8 @@ input[type=submit] {
 }
 #PhotoGrid
 {
-margin-left: 90px;
-margin-top: 90px;
+margin-left: 80px;
+margin-top: 20px;
 padding: 3px;
 float: left;
 height: 80%;
@@ -78,8 +78,9 @@ width: 50%;
 }
 
 #recommendation1{
+margin-left: 90px;
 float: left;
-height: 800px;
+height: 80%;
 overflow: scroll;
 width: 20%;
 }
@@ -94,6 +95,7 @@ width: 20%;
 	<br>
 	<%@ include file= "recommendations.jsp"%>
 	</div>
+	
 	<div id="PhotoGrid">
 	<h1><strong>Our Stash</strong></h1>
 	<br>

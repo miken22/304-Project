@@ -35,6 +35,7 @@
 		input[type=image] {
 			width:120px;
 			height:190px;
+			margin-top: 15px;
 			border: 1px solid #000000;
 		}
 		
