@@ -13,6 +13,7 @@
 	}
 	h1 {
 		color: black;
+		display-style: none;
 	}
 	input[type=submit] {
 		border: white;
@@ -46,8 +47,7 @@ function breakout_of_frame()
 </script>
 <body onLoad="breakout_of_frame()">
 	
-	<%@ include file="general_banner.html" %>
-	
+	<h1><strong><a href="login.jsp">Home</a></strong></h1>
 	<%
 		session = request.getSession();
 		if(session.getAttribute("msg") != null){
@@ -59,10 +59,10 @@ function breakout_of_frame()
 	
 	<form name="newUser" method="post" action="addUser.jsp">
 		<table align="center" style="font-size:125%; background-color:#EEEEEE;width:300px">
-		<tr><td>User name:</td> <td><input type="text" required name="userName"></td></tr>
-		<tr><td>Password:</td><td> <input type="password" required name="password" ></td></tr>
-		<tr><td>First Name:</td> <td><input type="text" required name="fName"></td></tr>
-		<tr><td>Last Name:</td><td><input type="text" required name="lName"></td></tr>
+		<tr><td>User name:</td> <td><input type="text" placeholder="Username" required name="userName"></td></tr>
+		<tr><td>Password:</td><td> <input type="password" placeholder="Password" required name="password" ></td></tr>
+		<tr><td>First Name:</td> <td><input type="text" placeholder="First Name" required name="fName"></td></tr>
+		<tr><td>Last Name:</td><td><input type="text" placeholder="Last Name" required name="lName"></td></tr>
 		<tr><td>Age:</td><td style="font-size:1.5x"><input type="number" required name="age"></td></tr>
 		<tr><td>Sex:</td><td><input type="radio" value="M" name="gender">M <input type="radio" value="F" name="gender">F</td></tr>
 		<tr><td align="center" colspan="2"> <b>Shipping Info:</b></td></tr>
@@ -70,6 +70,10 @@ function breakout_of_frame()
 		<tr><td>City</td><td><input type="text" required name="city"></td></tr>
 		<tr><td>Province</td><td><input type="text" required name="prov"></td></tr>
 		<tr><td>Postal Code</td><td><input type="text" required name="zip"></td></tr>
+		
+		<tr><td>
+		<h3>Select your preferences: </h3>
+		</td></tr>
 		<tr><td>Shirts</td><td><input type="checkbox" name="type" value="tshirt"></td><td>Shorts</td><td><input type="checkbox" name="type" value="shorts"></td></tr>
 		<tr><td>Sweaters</td><td><input type="checkbox" name="type" value="sweaters"></td><td>Shoes</td><td><input type="checkbox" name="type" value="shoes"></td></tr>
 		<tr><td>Snowboards</td><td><input type="checkbox" name="type" value="snowboard"></td><td>Jackets</td><td><input type="checkbox" name="type" value="jacket"></td></tr>

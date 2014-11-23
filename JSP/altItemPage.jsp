@@ -1,26 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.text.DecimalFormat" %>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Check this</title>
-
+<title>Check it</title>
+</head>
 <style>
-input[type=submit] {
-	border: white;
-	background: transparent;
-	color: black;
-	font-family: "serif";
-	font-size: 15pt;
-	padding: 5px 5px;
-	z-index: -1;
-	width: 30x;
-}
 #prodPic img{
 	height:70%;
 	width:35%;
@@ -31,10 +20,23 @@ input[type=submit] {
 td{
     border-radius: 5px;
 }
-</style>
-</head>
-<body>
+body {
+	background-image:
+		url("http://cdn4.coresites.mpora.com/whitelines_new/wp-content/uploads/2010/10/Gigi-Ruf-Snowboard-Wallpaper-1900x1200.jpg");
+	background-attachment: fixed;
+}
 
+</style>
+
+<script>
+	function breakout_of_frame() {
+		if (top.location != location) {
+			top.location.href = document.location.href;
+		}
+	}
+</script>
+<body onLoad="breakout_of_frame()">
+	<%@ include file="general_banner.html" %>
 	<%!
 	public class Items {
 		private String name = "";
@@ -254,7 +256,7 @@ if (itemMap.size() > 0) {
 			//name of item
 			
 			//price
-			out.print("<tr><td colspan='3' bgcolor='grey'><font size=\"4\"color=\"white\"><b><table cellspacing=20>");
+			out.print("<tr><td colspan='3' bgcolor='grey'><font size=\"4\"color=\"black\"><b><table cellspacing=20>");
 			out.print("<tr><td><b>&nbsp;Sex:</b></td><td>"
 					+ item.getPgender() + "</td></tr>");
 			out.print("<tr><td><b>&nbsp;Price:</b></td><td>"
@@ -264,7 +266,7 @@ if (itemMap.size() > 0) {
 					+ item.getPdescription() + "</p></td></tr>");
 			
 			out.print("</b></font><tr>");
-			out.print("<div id=\"prodlist\" float=\"right\">");
+			out.print("<div id=\"prodlist\" float=\"right\"><font=\"black\"");
 			out.println("<form method=\"get\"><font color=\"black\" size=\"2\">");
 			out.println("<td colspan='2'><select name=\"sizeList\" class='sizeList'>");
 			for (int i = 0; i < itemMap.size(); i++) {
@@ -289,7 +291,7 @@ if (itemMap.size() > 0) {
 						+ itemMap.get(i).getStock() + "</option>");
 			}
 			out.println("</select></td></tr>");
-			out.println("<tr><td colspan='2'>Amount:<input type='text' class='quant' name='quant' required>");
+			out.println("<tr><td colspan='2'>Amount:<input type='text' class='quant' name='quant' required></font>");
 			out.println("</td></tr>");
 			out.println("<tr><td bgcolor='yellow' align='center'>");
 			out.println("<input type=\"hidden\" name=\"pid\" value=\""
@@ -343,6 +345,5 @@ if("Add to Cart".equals(addItem)){
 */
 
 %>
-
 </body>
 </html>

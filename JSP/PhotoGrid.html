@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?php include("general_banner.html"); ?>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -22,8 +23,13 @@
 				obj.style.height = obj.contentWindow.document.table.scrollHeight + 'px';
 			}
 	</script>-->
+<script type="text/javascript src="general_banner.html"></script>
 </head>
+
 <script>
+var getImport= document.querySeletor('#banner');
+var getContent= getImport.import.querySelector('#content');
+document.body.appendChild(document.importNode(getContent, true));
 function breakout_of_frame()
 {
   if (top.location != location) {
@@ -86,9 +92,8 @@ input[type=submit] {
 }
 </style>
 
-
 <!-- Photo Grid -->
-<body onLoad="breakout_of_frame()">
+
 
 	<div>
 		<div>	
@@ -127,8 +132,8 @@ input[type=submit] {
 				</div>
 			</div>
 		</div>
-	</div>
 
+	</div>
 
 	<div id="PhotoGrid">
 		<iframe src="Grid.jsp" align="center"
