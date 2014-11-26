@@ -1,8 +1,9 @@
+<%@page import="java.util.Date"%>
+
 <%@page import="org.apache.catalina.filters.ExpiresFilter.XPrintWriter"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*"%>
-<%@ page import="java.util.Date" %>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.Random" %>
 <%@ page import="java.text.DecimalFormat"%>
@@ -62,7 +63,7 @@ int d1min=0;
 				PreparedStatement ps = con1.prepareStatement(sql);
 				ResultSet rst = ps.executeQuery();
 				
-				//For each Deal, while there is a next deal, and the current now time is greater than (i.e: falls outside because deal is invalid) the sale time + sale duration.
+				//For each Deal, while there is a next deal, the now time must be in between the deal start and end time in order to break the loop
 				int saleNum=0;
 				found:
 				while(rst.next()){
@@ -73,26 +74,121 @@ int d1min=0;
 					//,accounting for the duration of that deal
 					Date dateEnd=new Date(dateStart.getTime()+(rst.getInt("duration")*60*1000)); //from db, duration mins->millis
 					//!@#TEST Display Deal Info
-					System.out.println("SaleNum: "+rst.getInt("saleNum")+
+					System.out.println("___________________SaleNum: "+rst.getInt("saleNum")+
 							".\nSaleDateStart="+dateStart.toLocaleString()+ ".\t\t Value="+dateStart.getTime()+
 							".\nNow="+now.toLocaleString()+ ".\t\t\t Value="+now.getTime()+
 							".\nSaleEndDate="+dateEnd.toLocaleString()+ ".\t\t Value="+dateEnd.getTime()+
 							".\n[Now>=Start?]="+(now.getTime()>=dateStart.getTime())+
 							".\n[Now<End?]="+(now.getTime()<dateEnd.getTime())+
-							".");
+							".\n");
 					//check if valid: between start and end time
 						if((now.getTime()>=dateStart.getTime())&&(now.getTime()<dateEnd.getTime())){
 							break found;
 						}
 					
+					//if the last deal isn't valid, no valid deals in table. Need to create a new one. (NOTE: rst.last()=true when no more rows)
+						if(rst.isLast()){
+							System.out.println("----------\nThere are no more vaid deals in the database.\nCreating a new one...");
+							
+							
+							//STEP 1.1: Get All Products List
+							sql = "SELECT DISTINCT pid FROM Products";
+							ps = con1.prepareStatement(sql);
+							rst = ps.executeQuery();
+							//Count Number of Products
+							int ctr = 0;
+							while(rst.next()){
+								ctr++;
+							}
+							System.out.println("Products in Database (ctr): "+ctr);
+							
+							
+						
+							//STEP 1.2: Create Random New Deal Variables
+							int newPid=ctr;
+							int newDeal=0; 
+							int newSaleNum=0;
+							Date newStartDate=new Date();
+							double newDiscount=0.0;
+							int newDuration=0;
+							int newHours=0;
+							int newMinutes=0;
+							int newSMonth=0;
+							int newSDay=0;
+							int newSYear=0;
+							
+							System.out.println("\tNew Deal Properties:");
+							
+							
+							newDiscount = (new java.util.Random().nextInt(99)+1.0)/100.0;
+							System.out.println("newDiscount="+newDiscount);
+							
+														
+							newDeal = new java.util.Random().nextInt(ctr); //!@# +1? I dont think so.
+							System.out.println("Product DB Choice (newDeal): "+newDeal);
+							
+							//Get Product Info from selected product
+							rst.first();
+							rst.relative(newDeal);
+							newPid=rst.getInt("pid");
+							System.out.println("newPid: "+newPid);
+							
+							
+							
+							
+							//STEP 1.3: Get LAST Deal in order to set new time variables
+							sql = "SELECT * FROM Deals WHERE saleNum = (SELECT count(saleNum) FROM Deals)";
+							ps = con1.prepareStatement(sql);
+							ResultSet rst1 = ps.executeQuery();
+							rst1.next();
+							
+							newSaleNum=rst1.getInt("saleNum")+1;
+							System.out.println("newSaleNum="+newSaleNum);
+							
+							newDuration=60;//new Random().nextInt(2820)+60; //!@#Replace//60 mins to 2880 mins OR 1 hour to 2 days //Changed to random 1-60). Then if time<30{add 30;}
+							System.out.println("newDuration="+newDuration);
+							
+							//Extract startdate of last deal
+							Date pullDate=new Date(rst1.getInt("sYear")-1900, rst1.getInt("sMonth")-1, rst1.getInt("sDay"),rst1.getInt("hours"), rst1.getInt("minutes"),0);
+							newStartDate=new Date(pullDate.getTime()+(rst1.getInt("duration")*60*1000));
+							System.out.println("Pulled Date from Last Deal: \t\t"+pullDate.toLocaleString());
+							System.out.println("Constructed newStartDate for New Deal: \t"+newStartDate.toLocaleString());
+							
+							//Evaluate a now date
+							now=new Date();
+							System.out.println("Now: "+now.toLocaleString());
+											
+							//set the new Deal Variables, based on calculated newStartDate
+							System.out.println("\t***Calculating each new date parameter***");
+							newSYear=newStartDate.getYear()+1900;
+							newSMonth=newStartDate.getMonth()+1;
+							newHours=newStartDate.getHours();
+							newMinutes=newStartDate.getMinutes();
+							newSDay=(int)(newStartDate.getTime()-(new Date(newSYear, newSMonth,1,newHours,newMinutes,0).getTime()))/86400000;
+							System.out.println("newSYear="+newSYear+"\nnewSMonth="+newSMonth+"\nnewSDay="+newSDay+"\nnewHours="+newHours+"\nnewMinutes="+newMinutes+"\n******");
+							//create the newStartDate date
+							String finalDate="'"+newSYear+"-"+newSMonth+"-"+newSDay+" "+newHours+":"+newMinutes+":0'"; //!@#pickup
+							
+	
+							//STEP 1.4: WRITE new deal to db deals
+							sql="INSERT INTO Deals VALUES ("+newSaleNum+","+newPid+","+finalDate+","+newDiscount+","+newDuration+","+newHours+","+newMinutes+","+newSMonth+","+newSDay+","+newSYear+");";
+							System.out.println("sql="+"INSERT INTO Deals VALUES ("+newSaleNum+","+newPid+","+finalDate+","+newDiscount+","+newDuration+","+newHours+","+newMinutes+","+newSMonth+","+newSDay+","+newSYear+");");
+							ps = con1.prepareStatement(sql);
+							ps.execute();
+							System.out.println("STOP----------------------------------------Redirecting");
+							//Redirect to main page
+							response.sendRedirect("main_page.jsp");
+							
+						}//deal creation
 					
-				} 
+					
+				}//while
 							
 			//Display salenum to console for checking
 			System.out.println("The first valid sale is: 'saleNum'="+saleNum+".");
 		
 			
-			//STEP 2: Acquire Correct Deal
+			//STEP 2: Acquire Correct Deal, given saleNum, from the db
 			try{
 				sql = "SELECT * FROM Deals WHERE saleNum='"+saleNum+"';"; 
 				ps = con1.prepareStatement(sql);
@@ -110,7 +206,7 @@ int d1min=0;
 			d1day=rst.getInt(9);
 			d1year=rst.getInt(10);
 			}catch(Exception x){
-				System.out.println("Somthin' 'dun fudged up on da back end. LOL");
+				System.out.println("Something has gone wrong. LOL?");
 				x.printStackTrace();
 			}
 	
@@ -234,7 +330,7 @@ out.println("<script type=\"text/javascript\">");
 			out.println("console.log(\"Date/Timer has Expired.\");");
 			out.println("clearInterval(dateTimerInterval);");
 				//change timer field
-				out.println("document.getElementById('d6').innerHTML = \"This Deal is Done!\";");
+				out.println("document.getElementById('testRemaining').innerHTML = \"This Deal is Done!\";");
 				//!@#timer Attempting to reload testTimer.jsp
 				out.println("console.log(\"Attempting to refresh the location from the javascript. location.reload(true)\")");
 				out.println("location.reload(true);");
