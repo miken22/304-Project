@@ -71,19 +71,31 @@ input[type=submit] {
 {
 margin-left: 80px;
 margin-top: 20px;
-padding: 0.5px;
+padding: 3px;
 float: left;
 height: 80%;
-width: 100%;
+width: 50%;
 }
 
+#recommendation1{
+margin-left: 90px;
+float: left;
+height: 80%;
+overflow: scroll;
+width: 20%;
+}
 
 </style>
 
 <body>
 <%@ include file="general_banner.html"%>
 <body onLoad="breakout_of_frame()">
-
+<div id="recommendation1">
+	<h2><strong>Recommendation for Today</strong></h2>
+	<br>
+	<%@ include file= "recommendations.jsp"%>
+	</div>
+	
 	<div id="PhotoGrid">
 	<h1><strong>Our Stash</strong></h1>
 	<br>
